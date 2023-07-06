@@ -1,4 +1,4 @@
-package com.example.a390project;
+package com.example.a390project.view;
 
 import android.os.Bundle;
 import android.widget.TextView;
@@ -7,13 +7,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.a390project.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class MainActivity extends AppCompatActivity {
+public class DisplayActivity extends AppCompatActivity {
 
     // creating a variable for
     // our Firebase Database.
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
                 // calling on cancelled method when we receive
                 // any error or we are not able to get the data.
-                Toast.makeText(MainActivity.this, "Fail to get data.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DisplayActivity.this, "Fail to get data.", Toast.LENGTH_SHORT).show();
             }
         });
     }
