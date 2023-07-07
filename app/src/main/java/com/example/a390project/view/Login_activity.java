@@ -3,6 +3,7 @@ package com.example.a390project.view;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -27,9 +28,9 @@ public class Login_activity extends AppCompatActivity {
     DatabaseReference databaseReference;
     String username;
     String password;
-    TextView welcome,Login_text;
+    TextView welcome,Login_text,toRegister;
     EditText uid,pw;
-    Button login;
+    Button login,Signup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,15 @@ public class Login_activity extends AppCompatActivity {
         welcome=findViewById(R.id.Welcome_Text);
         Login_text=findViewById(R.id.Log_in_Text);
         login=(Button) findViewById(R.id.Log_in_button);
+        Signup=(Button) findViewById(R.id.RegisterHint);
         firebaseDatabase = FirebaseDatabase.getInstance();
+        Signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(Login_activity.this,RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
         // below line is used to get
         // reference for our database.
         databaseReference = firebaseDatabase.getReference().child("Users");
