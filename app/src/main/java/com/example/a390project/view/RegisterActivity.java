@@ -3,6 +3,7 @@ package com.example.a390project.view;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,14 +40,21 @@ public class RegisterActivity extends AppCompatActivity {
         Registration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                username=uid.getText().toString();
-                password=pw.getText().toString();
-                Email=email.getText().toString();
-                passwordConfirm=pwConfirm.getText().toString();
-                databaseReference.child(Email).child("Username").setValue(username);
-                databaseReference.child(Email).child("password").setValue(password);
-                Toast.makeText(getApplicationContext(), "Registration successful", Toast.LENGTH_SHORT).show();
-                finish();
+                username = uid.getText().toString();
+                password = pw.getText().toString();
+                Email = email.getText().toString();
+                passwordConfirm = pwConfirm.getText().toString();
+
+                if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password) || TextUtils.isEmpty(Email) || TextUtils.isEmpty(passwordConfirm)) {
+                    Toast.makeText(getApplicationContext(), "Please fill in all the fields", Toast.LENGTH_SHORT).show();
+                } else if (!password.equals(passwordConfirm)) {
+                    Toast.makeText(getApplicationContext(), "Passwords do not match", Toast.LENGTH_SHORT).show();
+                } else {
+                    databaseReference.child(Email).child("Username").setValue(username);
+                    databaseReference.child(Email).child("password").setValue(password);
+                    Toast.makeText(getApplicationContext(), "Registration successful", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
             }
         });
 

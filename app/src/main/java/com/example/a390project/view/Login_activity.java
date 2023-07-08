@@ -10,10 +10,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.a390project.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -60,21 +59,47 @@ public class Login_activity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                varifyLogin(uid.getText().toString(),pw.getText().toString());
-                Log.v("loginActivity","1");
-                Intent intent=new Intent(Login_activity.this,DisplayActivity.class);
-                startActivity(intent);
+                verifyLogin(uid.getText().toString(), pw.getText().toString(), new LoginVerificationCallback() {
+                    @Override
+                    public void onVerificationComplete(boolean isSuccess) {
+                        if (isSuccess) {
+                            Log.v("loginActivity", "1");
+                            Intent intent = new Intent(Login_activity.this, DisplayActivity.class);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Wrong username/password.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         });
+
+
+                /*
+                \
+                Log.v("loginActivity", verifyLogin(uid.getText().toString(),pw.getText().toString())+"  answer");
+                if(verifyLogin(uid.getText().toString(),pw.getText().toString()))
+                {
+                    Log.v("loginActivity", "1");
+                    Intent intent = new Intent(Login_activity.this, DisplayActivity.class);
+                    startActivity(intent);
+
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Wrong username/password.", Toast.LENGTH_SHORT).show();
+                }
+                 */
+
 
     }
 
 
 
 
-    public boolean varifyLogin(String X,String U) {
+    public void  verifyLogin(String X, String U,LoginVerificationCallback callback) {
 
-        final boolean[] isSuccess = {false};
+        boolean[] isSuccess = {false};
         // below line is used to get
         // reference for our database.
 
@@ -89,11 +114,21 @@ public class Login_activity extends AppCompatActivity {
                 if(s.equals(X))
                 {
                     String p=snap.child("password").getValue().toString();
-
-                    Log.v("loginActivity",p);
-                    welcome.setText("good");
+                    if(p.equals(U)) {
+                        Log.v("loginActivity",p);
+                        welcome.setText("good");
+                        isSuccess[0]=true;
+                        break;
+                    }
                 }
+
             }
+                if (isSuccess[0]) {
+                    callback.onVerificationComplete(true);
+                } else {
+                    callback.onVerificationComplete(false);
+                }
+
             }
 
             @Override
@@ -102,6 +137,10 @@ public class Login_activity extends AppCompatActivity {
                 Log.v("loginActivity","ERROR");
             }
         });
-        return  isSuccess[0];
+        Log.v("loginActivity", isSuccess[0]+"  is the return value");
+    }
+
+    public interface LoginVerificationCallback {
+        void onVerificationComplete(boolean isSuccess);
     }
 }

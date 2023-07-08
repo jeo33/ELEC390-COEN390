@@ -1,6 +1,7 @@
 package com.example.a390project.view;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,20 +33,24 @@ public class DisplayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display);
 
+        Log.v("displayact","1");
         // below line is used to get the instance
         // of our Firebase database.
         firebaseDatabase = FirebaseDatabase.getInstance();
 
+        Log.v("displayact","2");
         // below line is used to get
         // reference for our database.
         databaseReference = firebaseDatabase.getReference("message");
 
+        Log.v("displayact","3");
         // initializing our object class variable.
         retrieveTV = findViewById(R.id.idTVRetrieveData);
 
         // calling method
         // for getting data.
         getdata();
+        Log.v("displayact","4");
     }
 
     private void getdata() {
@@ -63,6 +68,7 @@ public class DisplayActivity extends AppCompatActivity {
                 // snapshot of our database.
                 String value = snapshot.getValue(String.class);
 
+                Log.v("displayact","5");
                 // after getting the value we are setting
                 // our value to our text view in below line.
                 retrieveTV.setText(value);
