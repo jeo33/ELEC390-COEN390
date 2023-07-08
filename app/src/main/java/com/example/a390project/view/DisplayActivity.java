@@ -1,6 +1,9 @@
 package com.example.a390project.view;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +28,10 @@ public class DisplayActivity extends AppCompatActivity {
     DatabaseReference databaseReference;
 
     // variable for Text view.
-    private TextView retrieveTV;
+    private TextView retrieveTV, titleDisplay;
+
+    //variable for Button.
+    private Button displayButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +47,19 @@ public class DisplayActivity extends AppCompatActivity {
         databaseReference = firebaseDatabase.getReference("message");
 
         // initializing our object class variable.
-        retrieveTV = findViewById(R.id.idTVRetrieveData);
+        retrieveTV = findViewById(R.id.id_TV_Retrieve_Data);
+        titleDisplay = findViewById(R.id.title_Display_Text);
+        displayButton =(Button) findViewById(R.id.record_Button);
 
-        // calling method
-        // for getting data.
-        getdata();
+        displayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // calling method
+                // for getting data.
+                getdata();
+            }
+        });
+
     }
 
     private void getdata() {
