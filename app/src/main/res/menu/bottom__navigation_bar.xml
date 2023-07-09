@@ -16,7 +16,7 @@
 
     <item
         android:id="@+id/Timer_page"
-        android:icon="@drawable/baseline_timer_24"
+        android:icon="@drawable/outline_timer_24"
         android:title="Timer"
         />
 
@@ -30,7 +30,7 @@
 
     <item
         android:id="@+id/Profile_page"
-        android:icon="@drawable/outline_account_circle_24"
+        android:icon="@drawable/baseline_account_circle_24"
         android:title="Profile"
         />
 
