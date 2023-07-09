@@ -1,14 +1,15 @@
 package com.example.a390project.HomeFragments;
 
 import android.os.Bundle;
-
+import android.os.SystemClock;
 import androidx.fragment.app.Fragment;
-
+import android.widget.Chronometer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.Toast;
 import com.example.a390project.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +26,9 @@ public class TimerFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private Chronometer chronometer;
+    private long pauseOffset;
+    private boolean running;
 
     public TimerFragment() {
         // Required empty public constructor
@@ -55,12 +59,54 @@ public class TimerFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
+
+    }
+
+    @Override
+    public void onViewCreated(View view,  Bundle savedInstanceState){
+
+        chronometer = getView().findViewById(R.id.chronometer);
+        chronometer.setFormat("Time: %s");
+        chronometer.setBase(SystemClock.elapsedRealtime());
+        chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+            @Override
+            public void onChronometerTick(Chronometer chronometer) {
+                if ((SystemClock.elapsedRealtime() - chronometer.getBase()) >= 10000) {
+                    chronometer.setBase(SystemClock.elapsedRealtime());
+                    Toast.makeText(MainActivity.this, "Bing!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_timer, container, false);
     }
+
+    public void startChronometer(View v) {
+        if (!running) {
+            chronometer.setBase(SystemClock.elapsedRealtime() - pauseOffset);
+            chronometer.start();
+            running = true;
+        }
+    }
+
+    public void pauseChronometer(View v) {
+        if (running) {
+            chronometer.stop();
+            pauseOffset = SystemClock.elapsedRealtime() - chronometer.getBase();
+            running = false;
+        }
+    }
+
+    public void resetChronometer(View v) {
+        chronometer.setBase(SystemClock.elapsedRealtime());
+        pauseOffset = 0;
+
 }

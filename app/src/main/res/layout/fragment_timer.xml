@@ -7,10 +7,68 @@
     tools:context=".HomeFragments.TimerFragment">
 
     <!-- TODO: Update blank fragment layout -->
+
     <TextView
+        android:id="@+id/TimerTitle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="this is timer page"
-        android:layout_gravity="center"  />
+        android:layout_gravity="center"
+        android:text="Timer"
+        android:textSize="32dp" />
+
+    <Chronometer
+        android:id="@id/chronometer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="32dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="200dp"
+        android:translationZ="90dp"
+        />
+
+    <ImageView
+        android:id="@+id/timerImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/timercircle"
+        tools:ignore="ContentDescription"
+        />
+
+    <ImageButton
+        android:id="@+id/buttonReset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="400dp"
+        android:layout_marginRight="-100dp"
+        android:src="@drawable/stopbutton"
+        android:onClick="resetChronometer"
+        />
+    <ImageButton
+        android:id="@+id/buttonStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="400dp"
+        android:layout_marginRight="100dp"
+        android:src="@drawable/playbutton"
+        android:onClick="startChronometer"
+
+        />
+
+    <ImageButton
+        android:id="@+id/buttonPause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="400dp"
+        android:src="@drawable/pausebutton"
+        android:onClick="pauseChronometer"
+
+        />
+
+
+
 
 </FrameLayout>
