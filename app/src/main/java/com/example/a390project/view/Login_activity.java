@@ -62,8 +62,6 @@ public class Login_activity extends AppCompatActivity {
             public void onClick(View view) {
                 varifyLogin(uid.getText().toString(),pw.getText().toString());
                 Log.v("loginActivity","1");
-                Intent i = new Intent(Login_activity.this, DisplayActivity.class);
-                startActivity(i);
             }
         });
 
