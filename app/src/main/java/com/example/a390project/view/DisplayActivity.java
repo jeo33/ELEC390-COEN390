@@ -31,7 +31,16 @@ public class DisplayActivity extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
 
     // creating a variable for our
-    // Database Reference for Firebase.
+    // Database Reference for Firebase.    // creating a variable for our
+    //    // Database Reference for Firebase.    // creating a variable for our
+    //    // Database Reference for Firebase.    // creating a variable for our
+    //    // Database Reference for Firebase.    // creating a variable for our
+    //    // Database Reference for Firebase.    // creating a variable for our
+    //    // Database Reference for Firebase.    // creating a variable for our
+    //    // Database Reference for Firebase.    // creating a variable for our
+    //    // Database Reference for Firebase.    // creating a variable for our
+    //    // Database Reference for Firebase.    // creating a variable for our
+    //    // Database Reference for Firebase.
     DatabaseReference databaseReference;
 
     // variable for Text view.
