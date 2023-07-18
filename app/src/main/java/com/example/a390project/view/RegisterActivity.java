@@ -53,6 +53,7 @@ public class RegisterActivity extends AppCompatActivity {
                     databaseReference.child(Email).child("Username").setValue(username);
                     databaseReference.child(Email).child("password").setValue(password);
                     Toast.makeText(getApplicationContext(), "Registration successful", Toast.LENGTH_SHORT).show();
+
                     finish();
                 }
             }
