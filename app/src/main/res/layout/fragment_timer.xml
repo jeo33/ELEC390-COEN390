@@ -1,82 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:gravity="center"
     android:layout_height="match_parent"
-    tools:context=".HomeFragments.TimerFragment">
-    <!-- Timer Text View -->
-    <TextView
-        android:id="@+id/timerTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:textSize="36sp" />
+    android:orientation="vertical">
 
-    <!-- Start Button -->
-    <Button
-        android:id="@+id/startButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/timerTextView"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="16dp"
-        android:onClick="startTimer"
-        android:text="Start" />
 
-    <!-- Stop Button -->
-    <Button
-        android:id="@+id/stopButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/timerTextView"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="16dp"
-        android:onClick="stopTimer"
-        android:text="Stop" />
-
-    <!-- Reset Button -->
-    <Button
-        android:id="@+id/resetButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/timerTextView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:onClick="resetTimer"
-        android:text="Reset" />
-
-    <!-- List View -->
-    <ListView
-        android:id="@+id/timerRecordsListView"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/stopButton"
-        android:layout_marginTop="16dp"
-        android:visibility="gone" />
+        android:layout_height="match_parent">
 
-    <!-- No Records Message -->
+
+        <Button
+            android:id="@+id/resetButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:onClick="resetTimer"
+            android:text="Reset"
+            app:layout_constraintEnd_toStartOf="@id/stopButton"
+            app:layout_constraintHorizontal_bias="0.511"
+            app:layout_constraintStart_toEndOf="@id/startButton"
+            app:layout_constraintTop_toBottomOf="@id/timerTextView" />
+
+        <TextView
+            android:id="@+id/timerTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="36sp"
+            app:layout_constraintBottom_toTopOf="@id/startButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/startButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="20dp"
+            android:onClick="startTimer"
+            android:text="Start"
+            app:layout_constraintEnd_toStartOf="@+id/recordButton"
+            app:layout_constraintTop_toBottomOf="@id/timerTextView" />
+
+        <Button
+            android:id="@+id/stopButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="32dp"
+            android:onClick="stopTimer"
+            android:text="Stop"
+            app:layout_constraintStart_toEndOf="@+id/recordButton"
+            app:layout_constraintTop_toBottomOf="@id/timerTextView" />
+
+        <!-- List View -->
+
+        <!-- No Records Message -->
+
+        <Button
+            android:id="@+id/recordButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:onClick="recordTimer"
+            android:text="Record"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.49"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/resetButton" />
+
+        <ListView
+            android:id="@+id/timerRecordsListView"
+            android:layout_width="400dp"
+            android:layout_height="497dp"
+            android:layout_marginTop="216dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/timerTextView" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <TextView
         android:id="@+id/noRecordsTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/stopButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
         android:text="No records yet"
-        android:visibility="gone" />
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recordButton" />
 
-    <Button
-        android:id="@+id/recordButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/timerRecordsListView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:onClick="recordTimer"
-        android:text="Record" />
-
-
-
-
-</RelativeLayout >
+</LinearLayout>
