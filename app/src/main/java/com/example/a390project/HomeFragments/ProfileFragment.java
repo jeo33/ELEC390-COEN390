@@ -121,7 +121,7 @@ public class ProfileFragment extends Fragment {
     private void loadProfileImage() {
         // Replace "root/admin/profile.jpg" with the correct path to your image in Firebase Storage
         stringValue = sharedPreferences.getString("userId", "Default Value if not found");
-
+        Log.v("s",stringValue);
         String imagePath = stringValue+"/profile.jpg";
 
         // Get a reference to the Firebase Storage location of the profile image
@@ -151,6 +151,7 @@ public class ProfileFragment extends Fragment {
             StorageReference imageRef = storageRef.child(newFilename);
 
             UploadTask uploadTask = imageRef.putFile(filePath);
+            Log.v("pathOffILE",filePath.getPath());
 
             // Add an OnProgressListener to show real-time progress in the ProgressBar
             uploadTask.addOnProgressListener(taskSnapshot -> {
@@ -167,6 +168,7 @@ public class ProfileFragment extends Fragment {
 
                     // After a successful upload, update the ImageView with the uploaded image
                     loadProfileImage();
+
                 } else {
                     // Handle unsuccessful upload
                     Toast.makeText(requireContext(), "Upload failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
