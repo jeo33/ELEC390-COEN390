@@ -20,8 +20,8 @@ public class RegisterActivity extends AppCompatActivity {
     // creating a variable for our
     // Database Reference for Firebase.
     DatabaseReference databaseReference;
-    String username,password,Email,passwordConfirm;
-    EditText uid,pw,pwConfirm,email;
+    String username,password,Email,passwordConfirm,Phonenumber;
+    EditText uid,pw,pwConfirm,email,Phone;
     Button Registration;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,7 @@ public class RegisterActivity extends AppCompatActivity {
         // below line is used to get
         // reference for our database.
         databaseReference = firebaseDatabase.getReference().child("Users");
-
+        Phone=findViewById(R.id.editTextphone);
         uid=findViewById(R.id.editTextName);
         pw=findViewById(R.id.editTextPassword);
         pwConfirm=findViewById(R.id.editTextConfirmPassword);
@@ -40,6 +40,7 @@ public class RegisterActivity extends AppCompatActivity {
         Registration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Phonenumber=Phone.getText().toString();
                 username = uid.getText().toString();
                 password = pw.getText().toString();
                 Email = email.getText().toString();
@@ -50,10 +51,11 @@ public class RegisterActivity extends AppCompatActivity {
                 } else if (!password.equals(passwordConfirm)) {
                     Toast.makeText(getApplicationContext(), "Passwords do not match", Toast.LENGTH_SHORT).show();
                 } else {
-                    databaseReference.child(Email).child("Username").setValue(username);
-                    databaseReference.child(Email).child("password").setValue(password);
+                    databaseReference.child(username).child("Email").setValue(Email);
+                    databaseReference.child(username).child("password").setValue(password);
+                    databaseReference.child(username).child("username").setValue(username);
+                    databaseReference.child(username).child("phone").setValue(Phonenumber);
                     Toast.makeText(getApplicationContext(), "Registration successful", Toast.LENGTH_SHORT).show();
-
                     finish();
                 }
             }

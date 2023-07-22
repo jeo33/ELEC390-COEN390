@@ -53,6 +53,14 @@
         android:layout_marginTop="30dp"
         android:hint="Password"
         android:inputType="textPassword" />
+    <EditText
+        android:id="@+id/editTextphone"
+        android:layout_width="280dp"
+        android:layout_gravity="center"
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp"
+        android:hint="Phone"
+        android:inputType="number" />
 
 
     <EditText

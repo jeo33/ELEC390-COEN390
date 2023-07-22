@@ -1,26 +1,59 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:orientation="vertical"
     tools:context=".HomeFragments.GPSFragment">
-
-    <!-- If using SupportMapFragment -->
-    <!--<fragment
-        android:id="@+id/mapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/other_ui_element"
-        android:name="com.google.android.gms.maps.SupportMapFragment" />-->
-
-    <!-- Add other UI elements as needed -->
 
     <fragment
         android:id="@+id/mapView"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="301dp"
-        android:layout_height="620dp" />
+        android:layout_width="371dp"
+        android:layout_height="529dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/editTextLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/mapView"
+        android:gravity="center">
+
+        <!-- Add EditText for Longitude -->
+        <EditText
+            android:id="@+id/longitudeEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="16dp"
+            android:hint="Longitude"
+            android:textSize="18sp"
+            android:inputType="numberDecimal|numberSigned" />
+
+        <!-- Add EditText for Altitude -->
+        <EditText
+            android:id="@+id/altitudeEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="16dp"
+            android:hint="Altitude"
+            android:textSize="18sp"
+            android:inputType="numberDecimal|numberSigned" />
+
+    </LinearLayout>
+
+    <!-- Add "Apply" Button below the EditText elements -->
+    <Button
+        android:id="@+id/applyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Apply"
+        android:layout_marginTop="16dp"
+        android:layout_below="@+id/editTextLayout"
+        android:layout_centerHorizontal="true"
+        android:onClick="onApplyButtonClick" />
+
+</RelativeLayout>

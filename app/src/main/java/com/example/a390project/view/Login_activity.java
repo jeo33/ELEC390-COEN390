@@ -3,7 +3,9 @@ package com.example.a390project.view;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,7 +32,7 @@ public class Login_activity extends AppCompatActivity {
     TextView welcome,Login_text,toRegister;
     EditText uid,pw;
     Button login,Signup;
-
+    SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +67,10 @@ public class Login_activity extends AppCompatActivity {
                         if (isSuccess) {
                             Log.v("loginActivity", "1");
                             Intent intent = new Intent(Login_activity.this, DisplayActivity.class);
+                            sharedPreferences = getSharedPreferences("MySharedPreferences", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("userId",uid.getText().toString());
+                            editor.apply();
                             startActivity(intent);
                         } else {
                             Toast.makeText(getApplicationContext(), "Wrong username/password.", Toast.LENGTH_SHORT).show();
@@ -109,7 +115,7 @@ public class Login_activity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot snap :  dataSnapshot.getChildren())
                 {
-                    String s=snap.child("Username").getValue().toString();
+                    String s=snap.child("username").getValue().toString();
                     Log.v("loginActivity",s);
                     if(s.equals(X))
                     {
