@@ -2,65 +2,161 @@ package com.example.a390project.HomeFragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.a390project.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link TimerFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+
+
 public class TimerFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private TextView timerTextView;
+    private Button startButton;
+    private Button stopButton;
+    private Button resetButton;
+    private Button recordButton;
+    private ListView timerRecordsListView;
+    private TextView noRecordsTextView;
 
-    public TimerFragment() {
-        // Required empty public constructor
-    }
+    private boolean isTimerRunning = false;
+    private long startTime;
+    private long elapsedTime;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment TimerFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static TimerFragment newInstance(String param1, String param2) {
-        TimerFragment fragment = new TimerFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private ArrayList<Long> timerRecordsList;
+    private ArrayAdapter<String> timerRecordsAdapter;
+    private int recordIndex = 1;
 
+    private Handler handler = new Handler();
+    private Runnable timerRunnable = new Runnable() {
+        @Override
+        public void run() {
+            elapsedTime = SystemClock.elapsedRealtime() - startTime;
+            updateTimerText(elapsedTime);
+            handler.postDelayed(this, 1000);
+        }
+    };
+
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_timer, container, false);
+
+        timerTextView = rootView.findViewById(R.id.timerTextView);
+        startButton = rootView.findViewById(R.id.startButton);
+        stopButton = rootView.findViewById(R.id.stopButton);
+        resetButton = rootView.findViewById(R.id.resetButton);
+        timerRecordsListView = rootView.findViewById(R.id.timerRecordsListView);
+        noRecordsTextView = rootView.findViewById(R.id.noRecordsTextView);
+
+        timerRecordsList = new ArrayList<>();
+        timerRecordsAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1);
+        timerRecordsListView.setAdapter(timerRecordsAdapter);
+
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startTimer();
+            }
+        });
+
+        stopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stopTimer();
+            }
+        });
+
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetTimer();
+            }
+        });
+
+        recordButton = rootView.findViewById(R.id.recordButton);
+        recordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recordTimer();
+            }
+        });
+
+        return rootView;
+    }
+
+    private void recordTimer() {
+        timerRecordsList.add(elapsedTime);
+        timerRecordsAdapter.add("Record " + recordIndex + ": " + formatElapsedTime(elapsedTime));
+        recordIndex++;
+        showTimerRecords();
+    }
+
+    private void startTimer() {
+        if (!isTimerRunning) {
+            isTimerRunning = true;
+            startTime = SystemClock.elapsedRealtime() - elapsedTime;
+            handler.post(timerRunnable);
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_timer, container, false);
+    private void stopTimer() {
+        if (isTimerRunning) {
+            isTimerRunning = false;
+            handler.removeCallbacks(timerRunnable);
+            timerRecordsList.add(elapsedTime);
+            timerRecordsAdapter.add("Record " + recordIndex + ": " + formatElapsedTime(elapsedTime));
+            recordIndex++;
+            showTimerRecords();
+        }
+    }
+
+    private void resetTimer() {
+        stopTimer();
+        elapsedTime = 0;
+        updateTimerText(elapsedTime);
+        timerRecordsAdapter.clear();
+        recordIndex = 1;
+        showTimerRecords();
+    }
+
+    private void updateTimerText(long timeInMilliseconds) {
+        int seconds = (int) (timeInMilliseconds / 1000);
+        int minutes = seconds / 60;
+        seconds = seconds % 60;
+
+        String timeText = String.format("%02d:%02d", minutes, seconds);
+        timerTextView.setText(timeText);
+    }
+
+    private String formatElapsedTime(long timeInMilliseconds) {
+        int seconds = (int) (timeInMilliseconds / 1000);
+        int minutes = seconds / 60;
+        seconds = seconds % 60;
+
+        return String.format("%02d:%02d", minutes, seconds);
+    }
+
+    private void showTimerRecords() {
+        if (timerRecordsAdapter.getCount() == 0) {
+            timerRecordsListView.setVisibility(View.GONE);
+            noRecordsTextView.setVisibility(View.VISIBLE);
+        } else {
+            timerRecordsListView.setVisibility(View.VISIBLE);
+            noRecordsTextView.setVisibility(View.GONE);
+        }
     }
 }
