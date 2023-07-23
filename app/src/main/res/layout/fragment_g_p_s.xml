@@ -50,10 +50,11 @@
         android:id="@+id/applyButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Apply"
-        android:layout_marginTop="16dp"
         android:layout_below="@+id/editTextLayout"
         android:layout_centerHorizontal="true"
-        android:onClick="onApplyButtonClick" />
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#AF0000"
+        android:onClick="onApplyButtonClick"
+        android:text="Apply" />
 
 </RelativeLayout>

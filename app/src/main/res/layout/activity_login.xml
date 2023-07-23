@@ -47,20 +47,22 @@
     <Button
         android:id="@+id/Log_in_button"
         android:layout_width="280dp"
-        android:layout_gravity="center"
         android:layout_height="50dp"
-        android:textSize="20dp"
+        android:layout_gravity="center"
         android:layout_marginTop="30dp"
-        android:text="LOGIN" />
+        android:backgroundTint="#AF0000"
+        android:text="LOGIN"
+        android:textSize="20dp" />
 
     <Button
         android:id="@+id/RegisterHint"
         android:layout_width="280dp"
-        android:layout_gravity="center"
         android:layout_height="50dp"
+        android:layout_gravity="center"
         android:layout_marginTop="30dp"
+        android:backgroundTint="#AF0000"
+        android:text="Sign Up"
         android:textAlignment="center"
-        android:textSize="20dp"
-        android:text="Sign Up" />
+        android:textSize="20dp" />
 
 </LinearLayout>

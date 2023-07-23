@@ -5,15 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".view.LoadingActivity">
+    tools:context=".view.LoadingActivity"
+    android:id="@+id/linearLayout">
 
     <ImageView
         android:id="@+id/loadingImage"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/coen_390_logo"
+        android:layout_height="660dp"
+        android:background="#1C1919"
+        android:src="@mipmap/ic_launcher_foreground"
+        app:srcCompat="@mipmap/ic_launcher_foreground"
         tools:ignore="ContentDescription"
-        tools:layout_editor_absoluteX="2dp"
-        tools:layout_editor_absoluteY="105dp" />
+        tools:layout_conversion_absoluteHeight="672dp"
+        tools:layout_conversion_absoluteWidth="411dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
 
 </LinearLayout>
