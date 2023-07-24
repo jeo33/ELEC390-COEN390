@@ -16,19 +16,15 @@
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="122dp"
-        android:text="TextView" />
+        android:layout_height="227dp"
+        android:text="Keep track and \nstore all data \nrelated to any \nincident while \ntracking everything"
+        android:textAlignment="center"
+        android:textSize="34sp" />
 
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="161dp"
         app:srcCompat="@drawable/map_picture_390" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
 
 </LinearLayout>
