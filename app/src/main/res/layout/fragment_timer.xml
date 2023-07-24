@@ -41,11 +41,11 @@
 
         <ImageButton
             android:id="@+id/startButton"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:layout_marginStart="140dp"
+            android:layout_width="52dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="110dp"
             android:layout_marginTop="75dp"
-            android:layout_marginEnd="45dp"
+            android:layout_marginEnd="60dp"
             android:layout_marginBottom="30dp"
             android:backgroundTint="#FF0000"
             android:contentDescription="Start Timer"
@@ -58,10 +58,10 @@
 
         <ImageButton
             android:id="@+id/stopButton"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
+            android:layout_width="50dp"
+            android:layout_height="56dp"
             android:layout_marginTop="75dp"
-            android:layout_marginEnd="135dp"
+            android:layout_marginEnd="110dp"
             android:layout_marginBottom="30dp"
             android:backgroundTint="#FF0000"
             android:contentDescription="Stop Timer"

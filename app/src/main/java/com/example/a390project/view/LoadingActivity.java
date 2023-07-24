@@ -10,7 +10,7 @@ import com.example.a390project.R;
 
 public class LoadingActivity extends AppCompatActivity {
 
-    private static final int LOADING_DURATION = 2000;
+    private static final int LOADING_DURATION = 4000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

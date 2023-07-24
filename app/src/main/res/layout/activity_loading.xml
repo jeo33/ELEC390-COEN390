@@ -11,7 +11,7 @@
     <ImageView
         android:id="@+id/loadingImage"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="792dp"
         android:background="#1C1919"
         android:src="@mipmap/ic_launcher_foreground"
         app:srcCompat="@mipmap/ic_launcher_foreground"
