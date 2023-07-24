@@ -14,14 +14,18 @@
 
         <Button
             android:id="@+id/resetButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="100dp"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="19dp"
+            android:layout_marginTop="22dp"
+            android:layout_marginEnd="96dp"
+            android:layout_marginBottom="46dp"
             android:backgroundTint="#FF0000"
             android:onClick="resetTimer"
             android:text="Reset"
+            app:layout_constraintBottom_toTopOf="@+id/timerRecordsListView"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/recordButton"
             app:layout_constraintTop_toBottomOf="@+id/stopButton" />
 
         <TextView
@@ -41,43 +45,36 @@
 
         <ImageButton
             android:id="@+id/startButton"
-            android:layout_width="52dp"
-            android:layout_height="56dp"
-            android:layout_marginStart="110dp"
-            android:layout_marginTop="75dp"
-            android:layout_marginEnd="60dp"
-            android:layout_marginBottom="30dp"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="96dp"
+            android:layout_marginTop="85dp"
             android:backgroundTint="#FF0000"
             android:contentDescription="Start Timer"
             android:onClick="startTimer"
             android:src="@android:drawable/ic_media_play"
-            app:layout_constraintBottom_toTopOf="@+id/recordButton"
-            app:layout_constraintEnd_toStartOf="@+id/stopButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/stopButton"
-            android:layout_width="50dp"
-            android:layout_height="56dp"
-            android:layout_marginTop="75dp"
-            android:layout_marginEnd="110dp"
-            android:layout_marginBottom="30dp"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="85dp"
+            android:layout_marginEnd="96dp"
             android:backgroundTint="#FF0000"
             android:contentDescription="Stop Timer"
             android:onClick="stopTimer"
             android:src="@android:drawable/ic_media_pause"
-            app:layout_constraintBottom_toTopOf="@+id/resetButton"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/startButton"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/recordButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
-            android:layout_marginTop="30dp"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="96dp"
+            android:layout_marginTop="22dp"
             android:backgroundTint="#FF0000"
             android:onClick="recordTimer"
             android:text="Record"
