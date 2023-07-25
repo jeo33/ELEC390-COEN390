@@ -24,17 +24,23 @@ import com.google.firebase.database.ValueEventListener;
 public class SensorInfoFragment extends Fragment {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
-    TextView retrieveTV;
+
+    private TextView MQ135ValueTextView;
+    private TextView FlameValueTextView;
+    private TextView HeartRateValueTextView;
+    private TextView sensor4ValueTextView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_sensor_info, container, false);
-        retrieveTV = rootView.findViewById(R.id.idTVRetrieveData);
-
+        MQ135ValueTextView = rootView.findViewById(R.id.sensor1Value);
+        FlameValueTextView = rootView.findViewById(R.id.sensor2Value);
+        HeartRateValueTextView = rootView.findViewById(R.id.sensor3Value);
+        sensor4ValueTextView = rootView.findViewById(R.id.sensor4Value);
+        //above are the edittext for each sensors
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("message");
-
         getdata();
 
         return rootView;
@@ -45,7 +51,10 @@ public class SensorInfoFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String value = snapshot.getValue(String.class);
-                retrieveTV.setText(value);
+                MQ135ValueTextView.setText(value);
+                FlameValueTextView.setText(value);
+                HeartRateValueTextView.setText(value);
+                sensor4ValueTextView.setText(value);
             }
 
             @Override

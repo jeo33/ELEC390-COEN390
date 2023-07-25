@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- oval_background.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Shadow -->
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="#DDDDDD" /> <!-- Adjust the shadow color here -->
+            <corners android:radius="50dp" /> <!-- Set the radius to half of the width/height to make it circular -->
+        </shape>
+    </item>
+
+    <!-- Background (Oval) -->
+    <item
+        android:left="10dp"
+    android:top="10dp"
+    android:right="10dp"
+    android:bottom="10dp">
+    <shape android:shape="oval">
+        <solid android:color="#FFFFFF" /> <!-- Adjust the oval background color here -->
+        <corners android:radius="50dp" /> <!-- Set the radius to half of the width/height to make it circular -->
+    </shape>
+</item>
+    </layer-list>

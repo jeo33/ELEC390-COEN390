@@ -24,16 +24,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/stopButton" />
 
+
         <TextView
             android:id="@+id/timerTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="36sp"
+            android:text="00：00：00"
             app:layout_constraintBottom_toTopOf="@id/startButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
         <!-- List View -->
 
@@ -86,15 +89,12 @@
 
         <ListView
             android:id="@+id/timerRecordsListView"
-            android:layout_width="400dp"
-            android:layout_height="497dp"
-            android:layout_marginTop="275dp"
+            android:layout_width="369dp"
+            android:layout_height="389dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.454"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/timerTextView"
-            app:layout_constraintVertical_bias="0.685" />
+            app:layout_constraintTop_toBottomOf="@+id/recordButton" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

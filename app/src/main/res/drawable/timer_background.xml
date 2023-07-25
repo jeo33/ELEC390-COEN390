@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- timer_background.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Outer Circle (Red background) -->
+    <item>
+        <shape
+            android:shape="oval">
+            <solid android:color="#FF0000" /> <!-- Set the outer circle color to red -->
+        </shape>
+    </item>
+
+    <!-- Inner Circle (White background) -->
+    <item
+        android:left="8dp"
+    android:top="8dp"
+    android:right="8dp"
+    android:bottom="8dp">
+    <shape
+        android:shape="oval">
+        <solid android:color="#FFFFFF" /> <!-- Set the inner circle color to white -->
+    </shape>
+</item>
+
+    </layer-list>
