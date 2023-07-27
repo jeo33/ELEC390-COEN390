@@ -29,6 +29,10 @@ public class SensorInfoFragment extends Fragment {
     private TextView FlameValueTextView;
     private TextView HeartRateValueTextView;
     private TextView sensor4ValueTextView;
+    private TextView sensor1BatteryValueTextView;
+    private TextView sensor2BatteryValueTextView;
+    private TextView sensor3BatteryValueTextView;
+    private TextView sensor4BatteryValueTextView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,23 +42,54 @@ public class SensorInfoFragment extends Fragment {
         FlameValueTextView = rootView.findViewById(R.id.sensor2Value);
         HeartRateValueTextView = rootView.findViewById(R.id.sensor3Value);
         sensor4ValueTextView = rootView.findViewById(R.id.sensor4Value);
+        sensor1BatteryValueTextView=rootView.findViewById(R.id.sensor1BatteryValue);
+        sensor2BatteryValueTextView=rootView.findViewById(R.id.sensor2BatteryValue);
+        sensor3BatteryValueTextView=rootView.findViewById(R.id.sensor3BatteryValue);
+        sensor4BatteryValueTextView=rootView.findViewById(R.id.sensor4BatteryValue);
         //above are the edittext for each sensors
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("message");
+        databaseReference = firebaseDatabase.getReference();
         getdata();
 
         return rootView;
     }
 
     public void getdata() {
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        DatabaseReference currentReadingRef = databaseReference.child("message").child("current_reading");
+        final String[] PreviousfirstString = new String[1];
+        final String[] PrevioussecondString = new String[1];
+        final String[] PreviousthirdString = new String[1];
+        currentReadingRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String value = snapshot.getValue(String.class);
-                MQ135ValueTextView.setText(value);
-                FlameValueTextView.setText(value);
-                HeartRateValueTextView.setText(value);
-                sensor4ValueTextView.setText(value);
+
+                String[] strings = value.split("/");
+                if (strings.length == 7) {
+                    String MQ135 = strings[0].equals("CL")? "Disconnected":strings[0];
+                    String MQ135Battery = strings[1].equals("CL")? "Disconnected":strings[1]+"%";
+                    String Flame = strings[2].equals("CL")? "Disconnected":strings[2];
+                    String FlameBattery = strings[3].equals("CL")? "Disconnected":strings[3]+"%";
+                    String HeartRate ;
+
+                    switch (strings[4])
+                    {
+                        case "CL":
+                            HeartRate="Disconnected";
+                            break;
+                        default:HeartRate=strings[3].equals("N")? "Disconnected":strings[4]+"%";
+                        break;
+                    }
+
+                    String HeartRateBattery = strings[5].equals("CL")? "Disconnected":strings[5]+"%";
+                    MQ135ValueTextView.setText(MQ135);
+                    FlameValueTextView.setText(Flame);
+                    HeartRateValueTextView.setText(HeartRate);
+                    sensor4ValueTextView.setText(value);
+                    sensor1BatteryValueTextView.setText(MQ135Battery);
+                    sensor2BatteryValueTextView.setText(FlameBattery);
+                    sensor3BatteryValueTextView.setText(HeartRateBattery);
+                }
             }
 
             @Override

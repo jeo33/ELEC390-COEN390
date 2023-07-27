@@ -38,6 +38,14 @@
                 android:textColor="@android:color/darker_gray"
                 android:textSize="14sp" />
 
+            <TextView
+                android:id="@+id/sensor1BatteryValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sensor Battery Reading"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="14sp" />
+
         </LinearLayout>
 
         <Button
@@ -68,7 +76,7 @@
                 android:id="@+id/sensorLabel2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Heart rate"
+                android:text="Flame Sensor"
                 android:textSize="16sp"
                 android:textColor="@android:color/black"
                 android:textStyle="bold" />
@@ -81,6 +89,14 @@
                 android:text="Sensor Reading"
                 android:textSize="14sp"
                 android:textColor="@android:color/darker_gray" />
+
+            <TextView
+                android:id="@+id/sensor2BatteryValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sensor Battery Reading"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -114,7 +130,7 @@
                 android:id="@+id/sensorLabel3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Flame Sensor"
+                android:text="Heart Rate Sensor"
                 android:textSize="16sp"
                 android:textColor="@android:color/black"
                 android:textStyle="bold" />
@@ -127,6 +143,14 @@
                 android:text="Sensor Reading"
                 android:textSize="14sp"
                 android:textColor="@android:color/darker_gray" />
+
+            <TextView
+                android:id="@+id/sensor3BatteryValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sensor Battery Reading"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -174,6 +198,14 @@
                 android:textColor="@android:color/darker_gray"
                 android:textSize="14sp" />
 
+            <TextView
+                android:id="@+id/sensor4BatteryValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sensor Battery Reading"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="14sp" />
+
         </LinearLayout>
 
         <!-- View details button on the right -->
@@ -182,6 +214,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="View Details" />
+
+
 
     </LinearLayout>
 
