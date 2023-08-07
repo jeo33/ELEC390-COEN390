@@ -94,9 +94,9 @@ public class ProfileFragment extends Fragment {
                 emailView=rootView.findViewById(R.id.emailTextView);
                 account=rootView.findViewById(R.id.accountTextView);
                 phoneNumber=rootView.findViewById(R.id.phoneTextView);
-                emailView.setText(email);
-                account.setText(name);
-                phoneNumber.setText(phonenum);
+                emailView.setText("E-mail:"+email);
+                account.setText("Name:"+name);
+                phoneNumber.setText("Phone:"+phonenum);
             }
 
             @Override

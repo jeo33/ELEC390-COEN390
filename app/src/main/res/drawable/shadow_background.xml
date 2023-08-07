@@ -1,0 +1,30 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Shadow for group 1 -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/shadow_color_group1" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+    <!-- Shadow for group 2 -->
+    <item android:top="6dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/shadow_color_group2" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+    <!-- Shadow for group 3 -->
+    <item android:top="12dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/shadow_color_group3" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+    <!-- Shadow for group 4 -->
+    <item android:top="18dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/shadow_color_group4" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+</layer-list>

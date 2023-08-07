@@ -1,62 +1,36 @@
-<!-- fragment_home.xml -->
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
 
-    <ImageView
-        android:id="@+id/dataImageView"
-        android:layout_width="243dp"
-        android:layout_height="231dp"
-        android:layout_marginStart="84dp"
-        android:layout_marginTop="39dp"
-        android:layout_marginEnd="84dp"
-        android:layout_marginBottom="22dp"
-        android:scaleX="1.1"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/data_picture_390"
-        tools:srcCompat="@drawable/data_picture_390" />
-
     <TextView
         android:id="@+id/textView"
-        android:layout_width="349dp"
-        android:layout_height="283dp"
-        android:layout_marginStart="31dp"
-        android:layout_marginTop="22dp"
-        android:layout_marginEnd="31dp"
-        android:fontFamily="sans-serif"
-        android:text="Keep track and store all data related to any incident while tracking in real time!"
-        android:textAlignment="center"
-        android:textSize="34sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dataImageView" />
-
-    <ImageView
-        android:id="@+id/mapImageVIew"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="180dp"
-        android:layout_marginBottom="52dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/map_picture_390" />
+        android:text="Connected users"
+        android:paddingTop="10dp"
+        android:textSize="24sp"
+        android:gravity="center" />
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="68dp"
-        android:layout_height="85dp"
-        android:layout_marginEnd="60dp"
-        android:layout_marginBottom="156dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/fire_390" />
+    <include
+        android:id="@+id/included_layout_1"
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        layout="@layout/homepagelayout_name_sensor" />
+
+    <include
+        android:id="@+id/included_layout_2"
+        layout="@layout/homepagelayout_name_sensor" />
+
+    <include
+        android:id="@+id/included_layout_3"
+        layout="@layout/homepagelayout_name_sensor" />
+
+    <include
+        android:id="@+id/included_layout_4"
+        layout="@layout/homepagelayout_name_sensor" />
+
+    <!-- Second Row -->
+</LinearLayout>
