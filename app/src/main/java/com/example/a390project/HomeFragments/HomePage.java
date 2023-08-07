@@ -1,5 +1,6 @@
 package com.example.a390project.HomeFragments;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -8,6 +9,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.example.a390project.R;
 import com.github.mikephil.charting.charts.LineChart;
@@ -26,60 +30,111 @@ public class HomePage extends Fragment {
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
-    LineChart chart;
-    List<Entry> entries;
-    float time = 0;
-    int xIndex = 0; // To keep track of the x-axis index
+    TextView textSensorReading1,textName1;
+    ImageView top,bot,left,right,middle;
+    String Readings;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home_page, container, false);
 
-        Log.v("Home_page_running","this is running:  "+1);
-        chart = rootView.findViewById(R.id.chart);
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
-        entries = new ArrayList<>();
+Log.v("HOME_RUNNING_TEST","RUNNING");
+        LinearLayout firstIncludedLayout = rootView.findViewById(R.id.included_layout_1);
+        textName1 = firstIncludedLayout.findViewById(R.id.text_name);
+        textSensorReading1 = firstIncludedLayout.findViewById(R.id.text_sensor_reading);
+        top= firstIncludedLayout.findViewById(R.id.image_top_icon);
+        bot= firstIncludedLayout.findViewById(R.id.image_bottom_icon);
+        left= firstIncludedLayout.findViewById(R.id.image_left_icon);
+        right= firstIncludedLayout.findViewById(R.id.image_right_icon);
+        middle= firstIncludedLayout.findViewById(R.id.image_center_icon);
+        Log.v("HOME_RUNNING_TEST","RUNNING");
 
-        Log.v("Home_page_running","this is running:  "+1);
+
+
         getdata();
+
+        Log.v("HOME_RUNNING_TEST","RUNNING");
 
         return rootView;
     }
+
     public void getdata() {
+        Log.v("HOME_RUNNING_TEST","this is running:  "+1);
         DatabaseReference currentReadingRef = databaseReference.child("message").child("current_reading");
+
+        Log.v("HOME_RUNNING_TEST","this is running:  "+1);
         currentReadingRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.v("Home_page_running","this is running:  "+1);
+                Log.v("HOME_RUNNING_TEST","this is running:  "+1);
                 String value = snapshot.getValue(String.class);
                 if (value != null) {
                     // Parse value and get time (you need to adjust this based on your data structure)
                     String[] strings = value.split("/");
-                    if (strings.length == 7) {
-                        String MQ135 = strings[0].equals("N")? "0":strings[0];
-                        String MQ135Battery = strings[1].equals("N")? "0":strings[1];
-                        String Flame = strings[2].equals("N")? "0":strings[2];
-                        String FlameBattery = strings[3].equals("N")? "0":strings[3];
-                        String HeartRate = strings[4].equals("N")? "0":strings[4];
-                        String HeartRateBattery = strings[5].equals("N")? "0":strings[5];
-                        chart.getAxisLeft().setAxisMinimum(0f); // Set the minimum value of the y-axis to 0
-                        chart.getAxisLeft().setAxisMaximum(1000f); // Set the maximum value of the y-axis to 1000
-                        Log.v("Home_page_running","this is running:  "+1);
-                        float floatValue = Float.parseFloat(MQ135);
-                        if (entries.size() >= 100) {
-                            entries.remove(0); // Remove the oldest entry if the list size exceeds 10
-                        }
-                        // Add the new data entry to the list
-                        entries.add(new Entry(time, floatValue));
 
-                        time++;
-                        // Create a dataset and update the chart
-                        LineDataSet dataSet = new LineDataSet(entries, "Value versus Time");
-                        LineData lineData = new LineData(dataSet);
-                        chart.setData(lineData);
-                        chart.invalidate(); // Refresh the chart
+                    Log.v("HOME_RUNNING_TEST","RUNNING INSIDE");
+                    if (strings.length == 16) {
+                        String year= strings[0];
+                        String month= strings[1];
+                        String date= strings[2];
+                        String hr= strings[3];
+                        String minute= strings[4];
+                        String second= strings[5];
+                        String MQ135 = strings[6].equals("N")? "0":strings[6];
+                        MQ135 = strings[6].equals("CL")? "0":strings[6];
+                        String MQ135Battery = strings[7].equals("N")? "0":strings[7];
+                         MQ135Battery = strings[7].equals("CL")? "0":strings[7];
+                        String MQ135PlugIn = strings[8].equals("N")? "0":strings[8];
+                         MQ135PlugIn = strings[8].equals("CL")? "0":strings[8];
+                        String Flame = strings[9].equals("N")? "0000":strings[9];
+                         Flame = strings[9].equals("CL")? "0000":strings[9];
+                        String FlameBattery = strings[10].equals("N")? "0":strings[10];
+                         FlameBattery = strings[10].equals("CL")? "0":strings[10];
+                        String FlamePlugIn = strings[11].equals("N")? "0":strings[11];
+                         FlamePlugIn = strings[11].equals("CL")? "0":strings[11];
+                        String HeartRate = strings[12].equals("N")? "0":strings[12];
+                         HeartRate = strings[12].equals("CL")? "0":strings[12];
+                        String HeartRateBattery = strings[13].equals("N")? "0":strings[13];
+                         HeartRateBattery = strings[13].equals("CL")? "0":strings[13];
+                        String HeartRatePlugIn = strings[14].equals("N")? "0":strings[14];
+                         HeartRatePlugIn = strings[14].equals("CL")? "0":strings[14];
+                        String Counter = strings[15].equals("N")? "0":strings[15];
+                        textName1.setText(Flame); // Set the new sensor reading for the first sensor.
+                        textSensorReading1.setText(year+"/"+month+"/"+date+"/"+hr+":"+minute+":"+second); // Set the new sensor reading for the first sensor.
+                        if(Flame.charAt(0)=='1')
+                        {
+                            if(Integer.parseInt(Counter)%2==0)top.setImageResource(R.drawable.baseline_local_fire_department_off);
+                            else top.setImageResource(R.drawable.baseline_local_fire_department_24);
+                        }
+                        else top.setImageResource(R.drawable.baseline_local_fire_department_off);
+
+                        if(Flame.charAt(1)=='1')
+                        {
+                            if(Integer.parseInt(Counter)%2==0)bot.setImageResource(R.drawable.baseline_local_fire_department_off);
+                            else bot.setImageResource(R.drawable.baseline_local_fire_department_24);
+                        }
+                        else bot.setImageResource(R.drawable.baseline_local_fire_department_off);
+
+                        if(Flame.charAt(2)=='1')
+                        {
+                            if(Integer.parseInt(Counter)%2==0)left.setImageResource(R.drawable.baseline_local_fire_department_off);
+                            else left.setImageResource(R.drawable.baseline_local_fire_department_24);
+                        }
+                        else left.setImageResource(R.drawable.baseline_local_fire_department_off);
+
+                        if(Flame.charAt(3)=='1')
+                        {
+                            if(Integer.parseInt(Counter)%2==0)right.setImageResource(R.drawable.baseline_local_fire_department_off);
+                            else right.setImageResource(R.drawable.baseline_local_fire_department_24);
+                        }
+                        else right.setImageResource(R.drawable.baseline_local_fire_department_off);
+
+
                     }
+
+
                 }
             }
 

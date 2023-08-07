@@ -1,0 +1,84 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="113dp"
+    android:layout_marginTop="80px"
+    android:orientation="horizontal">
+
+    <!-- Left Block -->
+    <LinearLayout
+        android:id="@+id/left_block"
+        android:layout_width="168dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+
+        >
+
+        <!-- Name -->
+        <TextView
+            android:id="@+id/text_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:textSize="18sp" />
+
+        <!-- Sensor Reading -->
+        <TextView
+            android:id="@+id/text_sensor_reading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="24°C"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+    <!-- Center Block -->
+    <LinearLayout
+        android:layout_width="105dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/image_top_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/baseline_local_fire_department_24" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/image_left_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/baseline_local_fire_department_24" />
+
+            <ImageView
+                android:id="@+id/image_center_icon"
+                android:layout_width="56dp"
+                android:layout_height="61dp"
+                android:src="@drawable/baseline_perm_identity_24"
+                android:layout_gravity="center" />
+
+            <ImageView
+                android:id="@+id/image_right_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/baseline_local_fire_department_24" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/image_bottom_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/baseline_local_fire_department_24" />
+
+    </LinearLayout>
+
+</LinearLayout>
