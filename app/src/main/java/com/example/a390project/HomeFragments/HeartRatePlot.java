@@ -4,8 +4,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class GasPlot extends DialogFragment {
+public class HeartRatePlot extends DialogFragment {
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
@@ -90,8 +88,7 @@ public class GasPlot extends DialogFragment {
                         FlameBattery = strings[10].equals("CL")? "0":strings[10];
                         String FlamePlugIn = strings[11].equals("N")? "0":strings[11];
                         FlamePlugIn = strings[11].equals("CL")? "0":strings[11];
-                        String HeartRate = strings[12].equals("N")? "0":strings[12];
-                        HeartRate = strings[12].equals("CL")? "0":strings[12];
+                        String HeartRate = (strings[12].equals("N")|strings[12].equals("CL"))? "0":strings[12];
                         String HeartRateBattery = strings[13].equals("N")? "0":strings[13];
                         HeartRateBattery = strings[13].equals("CL")? "0":strings[13];
                         String HeartRatePlugIn = strings[14].equals("N")? "0":strings[14];
@@ -101,9 +98,9 @@ public class GasPlot extends DialogFragment {
                         String longitudeString = strings[17];
                         String Counter = strings[18].equals("N")? "0":strings[18];
                         chart.getAxisLeft().setAxisMinimum(0f); // Set the minimum value of the y-axis to 0
-                        chart.getAxisLeft().setAxisMaximum(1000f); // Set the maximum value of the y-axis to 1000
+                        chart.getAxisLeft().setAxisMaximum(200f); // Set the maximum value of the y-axis to 1000
                         Log.v("Home_page_running","this is running:  "+1);
-                        float floatValue = Float.parseFloat(MQ135);
+                        float floatValue = Float.parseFloat(HeartRate);
                         if (entries.size() >= 15) {
                             entries.remove(0); // Remove the oldest entry if the list size exceeds 10
                         }

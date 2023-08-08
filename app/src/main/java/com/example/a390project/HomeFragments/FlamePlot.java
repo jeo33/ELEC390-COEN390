@@ -1,5 +1,6 @@
 package com.example.a390project.HomeFragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -29,12 +30,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class GasPlot extends DialogFragment {
+public class FlamePlot extends DialogFragment {
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     LineChart chart;
-    List<Entry> entries;
+    List<Entry> entries1;
+    List<Entry> entries2;
+    List<Entry> entries3;
+    List<Entry> entries4;
     float time = 0;
 
 
@@ -48,7 +52,10 @@ public class GasPlot extends DialogFragment {
         chart = rootView.findViewById(R.id.chart1);
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
-        entries = new ArrayList<>();
+        entries1 = new ArrayList<>();
+        entries2 = new ArrayList<>();
+        entries3 = new ArrayList<>();
+        entries4 = new ArrayList<>();
 
         Button closeButton = rootView.findViewById(R.id.closeButton);
         Log.v("Home_page_running","this is running:  "+1);
@@ -101,21 +108,67 @@ public class GasPlot extends DialogFragment {
                         String longitudeString = strings[17];
                         String Counter = strings[18].equals("N")? "0":strings[18];
                         chart.getAxisLeft().setAxisMinimum(0f); // Set the minimum value of the y-axis to 0
-                        chart.getAxisLeft().setAxisMaximum(1000f); // Set the maximum value of the y-axis to 1000
+                        chart.getAxisLeft().setAxisMaximum(2.0f); // Set the maximum value of the y-axis to 1000
                         Log.v("Home_page_running","this is running:  "+1);
-                        float floatValue = Float.parseFloat(MQ135);
-                        if (entries.size() >= 15) {
-                            entries.remove(0); // Remove the oldest entry if the list size exceeds 10
+                        float floatValue1 = (Flame.charAt(0)=='1')?0:1;
+                        float floatValue2 = (Flame.charAt(1)=='1')?0:1;
+                        float floatValue3 = (Flame.charAt(2)=='1')?0:1;
+                        float floatValue4 = (Flame.charAt(3)=='1')?0:1;
+                        if (entries1.size() >= 15) {
+                            entries1.remove(0); // Remove the oldest entry if the list size exceeds 10
+                        }
+                        if (entries2.size() >= 15) {
+                            entries2.remove(0); // Remove the oldest entry if the list size exceeds 10
+                        }
+                        if (entries3.size() >= 15) {
+                            entries3.remove(0); // Remove the oldest entry if the list size exceeds 10
+                        }
+                        if (entries4.size() >= 15) {
+                            entries4.remove(0); // Remove the oldest entry if the list size exceeds 10
                         }
                         // Add the new data entry to the list
-                        entries.add(new Entry(time, floatValue));
+                        entries1.add(new Entry(time, floatValue1));
+                        entries2.add(new Entry(time, floatValue2));
+                        entries3.add(new Entry(time, floatValue3));
+                        entries4.add(new Entry(time, floatValue4));
 
                         time++;
-                        // Create a dataset and update the chart
-                        LineDataSet dataSet = new LineDataSet(entries, "Value versus Time");
-                        LineData lineData = new LineData(dataSet);
+                        LineDataSet flameDataSet = new LineDataSet(entries1, "Front");
+                        flameDataSet.setColor(Color.RED); // Set color for the data points
+                        flameDataSet.setDrawValues(false); // Disable drawing values on data points
+                        flameDataSet.setLineWidth(2f); // Set line width
+                        flameDataSet.setCircleColor(Color.RED); // Set circle color for data points
+                        flameDataSet.setDrawCircleHole(false); // Disable circle hole
+
+                        LineDataSet mq135DataSet = new LineDataSet(entries2, "Back");
+                        mq135DataSet.setColor(Color.BLUE);
+                        mq135DataSet.setDrawValues(false);
+                        mq135DataSet.setLineWidth(2f);
+                        mq135DataSet.setCircleColor(Color.BLUE);
+                        mq135DataSet.setDrawCircleHole(false);
+
+                        LineDataSet mq135BatteryDataSet = new LineDataSet(entries3, "Left");
+                        mq135BatteryDataSet.setColor(Color.GREEN);
+                        mq135BatteryDataSet.setDrawValues(false);
+                        mq135BatteryDataSet.setLineWidth(2f);
+                        mq135BatteryDataSet.setCircleColor(Color.GREEN);
+                        mq135BatteryDataSet.setDrawCircleHole(false);
+
+                        LineDataSet flameBatteryDataSet = new LineDataSet(entries4, "Right");
+                        flameBatteryDataSet.setColor(Color.YELLOW);
+                        flameBatteryDataSet.setDrawValues(false);
+                        flameBatteryDataSet.setLineWidth(2f);
+                        flameBatteryDataSet.setCircleColor(Color.YELLOW);
+                        flameBatteryDataSet.setDrawCircleHole(false);
+
+// Create a LineData object and add data sets to it
+                        LineData lineData = new LineData(flameDataSet, mq135DataSet, mq135BatteryDataSet, flameBatteryDataSet);
+
+// Set data to the chart
                         chart.setData(lineData);
                         chart.invalidate(); // Refresh the chart
+
+
                     }
                 }
             }

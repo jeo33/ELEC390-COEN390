@@ -47,6 +47,13 @@
             android:textSize="14sp" />
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/Battery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:contentDescription="Details Button"
+        android:src="@drawable/baseline_library_books_33" />
     <!-- Center Block -->
     <LinearLayout
         android:layout_width="105dp"

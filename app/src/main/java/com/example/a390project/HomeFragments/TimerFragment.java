@@ -91,23 +91,35 @@ public class TimerFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String value = snapshot.getValue(String.class);
                 String[] strings = value.split("/");
-                if (strings.length == 16) {
+                if (strings.length == 19) {
                     String year= strings[0];
                     String month= strings[1];
                     String date= strings[2];
                     String hr= strings[3];
                     String minute= strings[4];
                     String second= strings[5];
-                    String MQ135 = (strings[6].equals("N")|strings[6].equals("CL"))? "0":strings[6];
-                    String MQ135Battery = (strings[7].equals("N")|strings[7].equals("CL"))? "0":strings[7];
-                    String MQ135PlugIn =(strings[8].equals("N")|strings[8].equals("CL"))? "0":strings[8];
-                    String Flame = (strings[9].equals("N")|strings[9].equals("CL"))? "0000":strings[9];
-                    String FlameBattery = (strings[10].equals("N")|strings[10].equals("CL"))? "0":strings[10];
-                    String FlamePlugIn = (strings[11].equals("N")|strings[11].equals("CL"))? "0":strings[11];
-                    String HeartRate = (strings[12].equals("N")|strings[12].equals("CL"))? "0":strings[12];
-                    String HeartRateBattery = (strings[13].equals("N")|strings[13].equals("CL"))? "0":strings[13];
-                    String HeartRatePlugIn = (strings[14].equals("N")|strings[14].equals("CL"))? "0":strings[14];
-                    String Counter = strings[15].equals("N")? "0":strings[15];
+                    String MQ135 = strings[6].equals("N")? "0":strings[6];
+                    MQ135 = strings[6].equals("CL")? "0":strings[6];
+                    String MQ135Battery = strings[7].equals("N")? "0":strings[7];
+                    MQ135Battery = strings[7].equals("CL")? "0":strings[7];
+                    String MQ135PlugIn = strings[8].equals("N")? "0":strings[8];
+                    MQ135PlugIn = strings[8].equals("CL")? "0":strings[8];
+                    String Flame = strings[9].equals("N")? "0000":strings[9];
+                    Flame = strings[9].equals("CL")? "0000":strings[9];
+                    String FlameBattery = strings[10].equals("N")? "0":strings[10];
+                    FlameBattery = strings[10].equals("CL")? "0":strings[10];
+                    String FlamePlugIn = strings[11].equals("N")? "0":strings[11];
+                    FlamePlugIn = strings[11].equals("CL")? "0":strings[11];
+                    String HeartRate = strings[12].equals("N")? "0":strings[12];
+                    HeartRate = strings[12].equals("CL")? "0":strings[12];
+                    String HeartRateBattery = strings[13].equals("N")? "0":strings[13];
+                    HeartRateBattery = strings[13].equals("CL")? "0":strings[13];
+                    String HeartRatePlugIn = strings[14].equals("N")? "0":strings[14];
+                    HeartRatePlugIn = strings[14].equals("CL")? "0":strings[14];
+                    String Mode = strings[15].equals("V")? "Void":strings[15];
+                    String latitudeString = strings[16];
+                    String longitudeString = strings[17];
+                    String Counter = strings[18].equals("N")? "0":strings[18];
                     timer1.setText(year+"/"+month+"/"+date+"/"+hr+":"+minute+":"+second);
                     Reading=Integer.parseInt(MQ135);
                     if(thresholdValue< Reading)counter=counter+1;

@@ -5,12 +5,14 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -33,8 +35,9 @@ public class HomePage extends Fragment {
     private boolean onDataChangeEnabled = false;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
-    TextView textSensorReading1,textName1;
+    TextView textSensorReading1,textName1,GPSMODE,latitude,longitude;
     ImageView top,bot,left,right,middle;;
+    ImageButton centerIcon;
     Button Location;
     String Readings;
     @Override
@@ -47,32 +50,23 @@ public class HomePage extends Fragment {
 Log.v("HOME_RUNNING_TEST","RUNNING");
 
         LinearLayout firstIncludedLayout = rootView.findViewById(R.id.included_layout_1);
+        centerIcon=firstIncludedLayout.findViewById(R.id.image_center_icon);
         textName1 = firstIncludedLayout.findViewById(R.id.text_name);
         textSensorReading1 = firstIncludedLayout.findViewById(R.id.text_sensor_reading);
         top= firstIncludedLayout.findViewById(R.id.image_top_icon);
         bot= firstIncludedLayout.findViewById(R.id.image_bottom_icon);
         left= firstIncludedLayout.findViewById(R.id.image_left_icon);
         right= firstIncludedLayout.findViewById(R.id.image_right_icon);
-        middle= firstIncludedLayout.findViewById(R.id.image_center_icon);
         Location=(Button) firstIncludedLayout.findViewById(R.id.Location);
+        GPSMODE= firstIncludedLayout.findViewById(R.id.GpsMode);
+        latitude= firstIncludedLayout.findViewById(R.id.latitude);
+        longitude= firstIncludedLayout.findViewById(R.id.longitude);
         Log.v("HOME_RUNNING_TEST","RUNNING");
 
-        Location.setOnClickListener(new View.OnClickListener() {
+        centerIcon.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Bundle args = new Bundle();
-                args.putFloat("floatArg1Key", 3.14f); // Replace with your float value
-                args.putFloat("floatArg2Key", 2.718f); // Replace with your float value
-
-                // Create OtherFragment and set arguments
-                GPSwithLocationInput gpsPage=new GPSwithLocationInput();
-                gpsPage.setArguments(args);
-
-                requireActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.frameLayout, gpsPage) // Replace with your fragment container ID
-                        .addToBackStack(null) // Add transaction to the back stack
-                        .commit();
+            public void onClick(View v) {
+                showPlotPopupAll();
             }
         });
 
@@ -82,18 +76,13 @@ Log.v("HOME_RUNNING_TEST","RUNNING");
 
         return rootView;
     }
-    @Override
-    public void onResume() {
-        super.onResume();
-        onDataChangeEnabled = true; // Enable onDataChange when the fragment is visible
-        getdata(); // Call the method to start onDataChange logic
+
+    private void showPlotPopupAll() {
+        // Create and show the PlotFragment as a popup dialog
+        AllRecords plotFragment = new AllRecords();
+        plotFragment.show(getChildFragmentManager(), "my_dialog");
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        onDataChangeEnabled = false; // Disable onDataChange when the fragment is not visible
-    }
     public void getdata() {
         Log.v("HOME_RUNNING_TEST","this is running:  "+1);
         DatabaseReference currentReadingRef = databaseReference.child("message").child("current_reading");
@@ -102,7 +91,7 @@ Log.v("HOME_RUNNING_TEST","RUNNING");
         currentReadingRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (onDataChangeEnabled){
+
                     Log.v("HOME_RUNNING_TEST","this is running:  "+1);
                     String value = snapshot.getValue(String.class);
                     if (value != null) {
@@ -110,7 +99,7 @@ Log.v("HOME_RUNNING_TEST","RUNNING");
                         String[] strings = value.split("/");
 
                         Log.v("HOME_RUNNING_TEST","RUNNING INSIDE");
-                        if (strings.length == 16) {
+                        if (strings.length == 19) {
                             String year= strings[0];
                             String month= strings[1];
                             String date= strings[2];
@@ -135,9 +124,33 @@ Log.v("HOME_RUNNING_TEST","RUNNING");
                             HeartRateBattery = strings[13].equals("CL")? "0":strings[13];
                             String HeartRatePlugIn = strings[14].equals("N")? "0":strings[14];
                             HeartRatePlugIn = strings[14].equals("CL")? "0":strings[14];
-                            String Counter = strings[15].equals("N")? "0":strings[15];
+                            String Mode = strings[15].equals("V")? "Last Location":"Current Location";
+                            String latitudeString = strings[16];
+                            String longitudeString = strings[17];
+                            String Counter = strings[18].equals("N")? "0":strings[18];
                             textName1.setText(Flame); // Set the new sensor reading for the first sensor.
                             textSensorReading1.setText(year+"/"+month+"/"+date+"/"+hr+":"+minute+":"+second); // Set the new sensor reading for the first sensor.
+                            GPSMODE.setText(Mode);
+                            latitude.setText(latitudeString);
+                            longitude.setText(longitudeString);
+                            Location.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Bundle args = new Bundle();
+                                    args.putFloat("floatArg1Key", Float.parseFloat(longitudeString)); // Replace with your float value
+                                    args.putFloat("floatArg2Key", Float.parseFloat(latitudeString)); // Replace with your float value
+
+                                    // Create OtherFragment and set arguments
+                                    GPSwithLocationInput gpsPage=new GPSwithLocationInput();
+                                    gpsPage.setArguments(args);
+
+                                    requireActivity().getSupportFragmentManager()
+                                            .beginTransaction()
+                                            .replace(R.id.frameLayout, gpsPage) // Replace with your fragment container ID
+                                            .addToBackStack(null) // Add transaction to the back stack
+                                            .commit();
+                                }
+                            });
                             if(Flame.charAt(0)=='1')
                             {
                                 if(Integer.parseInt(Counter)%2==0)top.setImageResource(R.drawable.baseline_local_fire_department_off);
@@ -172,7 +185,6 @@ Log.v("HOME_RUNNING_TEST","RUNNING");
 
                     }
                 }
-            }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
