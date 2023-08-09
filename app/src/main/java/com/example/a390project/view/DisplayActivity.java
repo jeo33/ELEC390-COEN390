@@ -26,23 +26,10 @@ import com.google.firebase.database.ValueEventListener;
 
 public class DisplayActivity extends AppCompatActivity {
 
-    // creating a variable for
-    // our Firebase Database.
+
     FirebaseDatabase firebaseDatabase;
 
-    // creating a variable for our
-    // Database Reference for Firebase.    // creating a variable for our
-    //    // Database Reference for Firebase.    // creating a variable for our
-    //    // Database Reference for Firebase.    // creating a variable for our
-    //    // Database Reference for Firebase.    // creating a variable for our
-    //    // Database Reference for Firebase.    // creating a variable for our
-    //    // Database Reference for Firebase.    // creating a variable for our
-    //    // Database Reference for Firebase.    // creating a variable for our
-    //    // Database Reference for Firebase.    // creating a variable for our
-    //    // Database Reference for Firebase.    // creating a variable for our
-    //    // Database Reference for Firebase.
     DatabaseReference databaseReference;
-
     // variable for Text view.
     private TextView retrieveTV;
     BottomNavigationView bottomNavigationView;

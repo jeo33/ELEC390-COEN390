@@ -5,14 +5,14 @@
     android:orientation="horizontal">
 
     <!-- Left Block -->
+
+    <!-- Center Block -->
     <LinearLayout
         android:id="@+id/left_block"
-        android:layout_width="168dp"
+        android:layout_width="189dp"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:orientation="vertical"
-
-        >
+        android:orientation="vertical">
 
         <!-- Name -->
         <TextView
@@ -27,13 +27,41 @@
             android:id="@+id/text_sensor_reading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="24°C"
-            android:textSize="24sp" />
+            android:text="Reading"
+            android:textSize="14sp"  />
+
+        <TextView
+            android:id="@+id/GpsMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GpsMode"
+            android:textSize="14sp"  />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/latitude"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Latitude:"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/longitude"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Longitude:"
+                android:textSize="14sp" />
+        </LinearLayout>
+
     </LinearLayout>
 
-    <!-- Center Block -->
     <LinearLayout
-        android:layout_width="105dp"
+        android:layout_width="104dp"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
@@ -42,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@drawable/baseline_local_fire_department_24" />
+            android:src="@drawable/baseline_local_fire_department_off" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -54,21 +82,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/baseline_local_fire_department_24" />
+                android:src="@drawable/baseline_local_fire_department_off" />
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/image_center_icon"
-                android:layout_width="56dp"
-                android:layout_height="61dp"
-                android:src="@drawable/baseline_perm_identity_24"
-                android:layout_gravity="center" />
+                android:layout_width="51dp"
+                android:layout_height="56dp"
+                android:layout_gravity="center"
+                android:src="@drawable/baseline_perm_identity_24" />
 
             <ImageView
                 android:id="@+id/image_right_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/baseline_local_fire_department_24" />
+                android:src="@drawable/baseline_local_fire_department_off" />
 
         </LinearLayout>
 
@@ -77,8 +105,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@drawable/baseline_local_fire_department_24" />
+            android:src="@drawable/baseline_local_fire_department_off" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/Location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:backgroundTint="#AF0000"
+        android:text="Location"
+        android:textAlignment="center" />
 
 </LinearLayout>
