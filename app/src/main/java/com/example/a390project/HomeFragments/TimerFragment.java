@@ -38,11 +38,14 @@ public class TimerFragment extends Fragment {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     int Reading;
+
+    private static final String COUNTER_LIST_KEY = "counter_list_key";
     TextView timer1,timer2,lastRecord;
-    int counter=0;
-    SharedPreferences sharedPreferences;
+    int  counter=0;
     LineChart chart;
     List<Entry> entries;
+
+    List<Integer> counterList;
     float time = 0;
 
     @Override
@@ -50,6 +53,7 @@ public class TimerFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_timer, container, false);
         chart = rootView.findViewById(R.id.chart1);
         entries = new ArrayList<>();
+        counterList = new ArrayList<>();
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
         lastRecord=rootView.findViewById(R.id.lastTime);
@@ -71,9 +75,10 @@ public class TimerFragment extends Fragment {
         resetThresholdBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                lastRecord.setText("Last record:"+counter+"s");
-                counter=0;
+                lastRecord.setText("Last record:"+counterList.size()+"s");
+                counterList = new ArrayList<>();
                 thresholdValue=9999;
+
             }
         });
 
@@ -122,9 +127,15 @@ public class TimerFragment extends Fragment {
                     String Counter = strings[18].equals("N")? "0":strings[18];
                     timer1.setText(year+"/"+month+"/"+date+"/"+hr+":"+minute+":"+second);
                     Reading=Integer.parseInt(MQ135);
-                    if(thresholdValue< Reading)counter=counter+1;
+                    if (thresholdValue < Reading) {
+                        // Check if the counter value is not already in the list
+                        if (!counterList.contains(Integer.parseInt(Counter))) {
+                            // Add the counter value to the list
+                            counterList.add(Integer.parseInt(Counter));
+                        }
+                    }
+                    timer2.setText("Time(s)"+counterList.size());
                     //timer2.setText("threshold:  "+thresholdValue+"  reading  "+Reading+"counter: "+counter);
-                    timer2.setText("Time(s): "+counter);
                     chart.getAxisLeft().setAxisMinimum(0f); // Set the minimum value of the y-axis to 0
                     chart.getAxisLeft().setAxisMaximum(1000f); // Set the maximum value of the y-axis to 1000
                     float floatValue = Float.parseFloat(MQ135);
@@ -148,6 +159,51 @@ public class TimerFragment extends Fragment {
                 Toast.makeText(getActivity(), "Fail to get data.", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        // Save the counterList in SharedPreferences
+        saveCounterListToSharedPreferences();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Retrieve the counterList from SharedPreferences
+        retrieveCounterListFromSharedPreferences();
+    }
+
+    private void saveCounterListToSharedPreferences() {
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        StringBuilder counterListString = new StringBuilder();
+        for (int counter : counterList) {
+            counterListString.append(counter).append(",");
+        }
+
+        editor.putString(COUNTER_LIST_KEY, counterListString.toString());
+        editor.apply();
+    }
+
+    private void retrieveCounterListFromSharedPreferences() {
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        String counterListString = sharedPreferences.getString(COUNTER_LIST_KEY, "");
+
+        if (!counterListString.isEmpty()) {
+            String[] counterArray = counterListString.split(",");
+            counterList.clear();
+            for (String counterStr : counterArray) {
+                try {
+                    int counterValue = Integer.parseInt(counterStr);
+                    counterList.add(counterValue);
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }
 

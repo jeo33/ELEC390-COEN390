@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -26,6 +27,7 @@ public class AllRecords extends DialogFragment {
 
     private DatabaseReference databaseReference;
     private ListView listView;
+    private Button exitButton;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -37,7 +39,16 @@ public class AllRecords extends DialogFragment {
 
         // Query the database based on your index
         DatabaseReference indexRef =  databaseReference.child("message");
-        indexRef.addValueEventListener(new ValueEventListener() {
+        exitButton = rootView.findViewById(R.id.exitButton); // Get reference to the exit button
+
+        exitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Close the dialog when exit button is clicked
+                dismiss();
+            }
+        });
+        indexRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 List<String> items = new ArrayList<>();
@@ -90,6 +101,7 @@ public class AllRecords extends DialogFragment {
                 );
                 listView.setAdapter(adapter);
             }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

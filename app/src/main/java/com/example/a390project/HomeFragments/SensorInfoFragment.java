@@ -145,22 +145,22 @@ public class SensorInfoFragment extends Fragment {
                     String minute= strings[4];
                     String second= strings[5];
                     String MQ135 = strings[6].equals("N")? "0":strings[6];
-                    MQ135 = strings[6].equals("CL")? "0":strings[6];
+                    MQ135 = (strings[6].equals("CL")|strings[6].equals("w"))? "0":strings[6];
                     String MQ135Battery = strings[7].equals("N")? "0":strings[7];
                     MQ135Battery = strings[7].equals("CL")? "0":strings[7];
                     String MQ135PlugIn = strings[8].equals("N")? "0":strings[8];
-                    MQ135PlugIn = strings[8].equals("CL")? "0":strings[8];
+                    MQ135PlugIn = strings[8];
                     String Flame = strings[9].equals("N")? "0000":strings[9];
                     Flame = strings[9].equals("CL")? "0000":strings[9];
                     String FlameBattery = strings[10].equals("N")? "0":strings[10];
                     FlameBattery = strings[10].equals("CL")? "0":strings[10];
                     String FlamePlugIn = strings[11].equals("N")? "0":strings[11];
-                    FlamePlugIn = strings[11].equals("CL")? "0":strings[11];
+                    FlamePlugIn = strings[11];
                     String HeartRate = (strings[12].equals("N")|strings[12].equals("CL"))? "No Finger Detected":strings[12];
                     String HeartRateBattery = strings[13].equals("N")? "0":strings[13];
                     HeartRateBattery = strings[13].equals("CL")? "0":strings[13];
                     String HeartRatePlugIn = strings[14].equals("N")? "0":strings[14];
-                    HeartRatePlugIn = strings[14].equals("CL")? "0":strings[14];
+                    HeartRatePlugIn = strings[14];
                     String Mode = strings[15].equals("V")? "Void":strings[15];
                     String latitudeString = strings[16];
                     String longitudeString = strings[17];
@@ -174,48 +174,81 @@ public class SensorInfoFragment extends Fragment {
                     sensor1PlugIn.setText("PlugIn : "+MQ135PlugIn);
                     sensor2PlugIn.setText("PlugIn : "+FlamePlugIn);
                     sensor3PlugIn.setText("PlugIn : "+HeartRatePlugIn);
-                    if(HeartRatePlugIn.equals("1"))
+                    if(HeartRatePlugIn.equals("CL"))
                     {
+                        Battery_CONNECTION3.setImageResource(R.drawable.baseline_signal_wifi_connected_no_internet);
+                    } else if (HeartRatePlugIn.equals("1"))
+                    {
+
                         Battery_CONNECTION3.setImageResource(R.drawable.baseline_battery_charging_full_charging);
-                    } else if (Integer.parseInt(HeartRateBattery)<50)
-                    {
+                    } else {
+                        if(Integer.parseInt(HeartRateBattery)<25)
+                        {
+                            Battery_CONNECTION3.setImageResource(R.drawable.baseline_battery_0_bar_0p);
+                        }
+                        else if(Integer.parseInt(HeartRateBattery)<75)
+                        {
 
-                        Battery_CONNECTION3.setImageResource(R.drawable.baseline_battery_3_bar_50p);
-                    } else if (Integer.parseInt(HeartRateBattery)<80) {
+                            Battery_CONNECTION3.setImageResource(R.drawable.baseline_battery_3_bar_50p);
+                        }
+                        else
+                        {
 
-                        Battery_CONNECTION3.setImageResource(R.drawable.baseline_battery_5_bar_75);
+                            Battery_CONNECTION3.setImageResource(R.drawable.baseline_battery_full_24);
+                        }
                     }
-                    else Battery_CONNECTION3.setImageResource(R.drawable.baseline_battery_full_24);
 
-
-                    if(FlamePlugIn.equals("1"))
+                    if(FlamePlugIn.equals("CL"))
                     {
+                        Battery_CONNECTION2.setImageResource(R.drawable.baseline_signal_wifi_connected_no_internet);
+                    } else if (HeartRatePlugIn.equals("1"))
+                    {
+
                         Battery_CONNECTION2.setImageResource(R.drawable.baseline_battery_charging_full_charging);
+                    } else {
+                        if(Integer.parseInt(FlameBattery)<25)
+                        {
+                            Battery_CONNECTION2.setImageResource(R.drawable.baseline_battery_0_bar_0p);
+                        }
+                        else if(Integer.parseInt(FlameBattery)<75)
+                        {
+
+                            Battery_CONNECTION2.setImageResource(R.drawable.baseline_battery_3_bar_50p);
+                        }
+                        else
+                        {
+
+                            Battery_CONNECTION2.setImageResource(R.drawable.baseline_battery_full_24);
+                        }
                     }
-                    else if (Integer.parseInt(FlameBattery)<50)
+
+                    if(MQ135PlugIn.equals("CL"))
+                    {
+                        Battery_CONNECTION1.setImageResource(R.drawable.baseline_signal_wifi_connected_no_internet);
+                    } else if (MQ135PlugIn.equals("1"))
                     {
 
-                        Battery_CONNECTION2.setImageResource(R.drawable.baseline_battery_3_bar_50p);
-                    } else if (Integer.parseInt(FlameBattery)<80) {
-
-                        Battery_CONNECTION2.setImageResource(R.drawable.baseline_battery_5_bar_75);
-                    }
-                    else Battery_CONNECTION2.setImageResource(R.drawable.baseline_battery_full_24);
-
-
-                    if(MQ135PlugIn.equals("1"))
-                    {
                         Battery_CONNECTION1.setImageResource(R.drawable.baseline_battery_charging_full_charging);
-                    }
-                    else if (Integer.parseInt(MQ135Battery)<50)
-                    {
+                    } else {
+                        if(Integer.parseInt(MQ135Battery)<25)
+                        {
+                            Battery_CONNECTION1.setImageResource(R.drawable.baseline_battery_0_bar_0p);
+                        }
+                        else if(Integer.parseInt(MQ135Battery)<75)
+                        {
 
-                        Battery_CONNECTION1.setImageResource(R.drawable.baseline_battery_3_bar_50p);
-                    } else if (Integer.parseInt(MQ135Battery)<80) {
+                            Battery_CONNECTION1.setImageResource(R.drawable.baseline_battery_3_bar_50p);
+                        }
+                        else
+                        {
 
-                        Battery_CONNECTION1.setImageResource(R.drawable.baseline_battery_5_bar_75);
+                            Battery_CONNECTION1.setImageResource(R.drawable.baseline_battery_full_24);
+                        }
                     }
-                    else Battery_CONNECTION1.setImageResource(R.drawable.baseline_battery_full_24);
+
+
+
+
                 }
             }
 

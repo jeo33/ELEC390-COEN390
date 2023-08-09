@@ -1,6 +1,7 @@
 package com.example.a390project.HomeFragments;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,9 +18,12 @@ import android.widget.Toast;
 
 import com.example.a390project.R;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,154 +33,156 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class FlamePlot extends DialogFragment {
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     LineChart chart;
+    LineChart chart2;
+    LineChart chart3;
+    LineChart chart4;
+
     List<Entry> entries1;
     List<Entry> entries2;
     List<Entry> entries3;
     List<Entry> entries4;
     float time = 0;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_gas_plot, container, false);
-        // Inflate the layout for this fragment
+        View rootView = inflater.inflate(R.layout.fragment_flame_plot, container, false);
 
-        Log.v("Home_page_running","this is running:  "+1);
         chart = rootView.findViewById(R.id.chart1);
+        chart2 = rootView.findViewById(R.id.chart2);
+        chart3 = rootView.findViewById(R.id.chart3);
+        chart4 = rootView.findViewById(R.id.chart4);
+
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
-        entries1 = new ArrayList<>();
-        entries2 = new ArrayList<>();
-        entries3 = new ArrayList<>();
-        entries4 = new ArrayList<>();
-
         Button closeButton = rootView.findViewById(R.id.closeButton);
-        Log.v("Home_page_running","this is running:  "+1);
-        getdata();
+
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss(); // Close the dialog
             }
         });
-        return rootView;
-    }
-    public void getdata() {
-        DatabaseReference currentReadingRef = databaseReference.child("message").child("current_reading");
-        currentReadingRef.addValueEventListener(new ValueEventListener() {
+
+        DatabaseReference currentReadingRef = databaseReference.child("message");
+
+        currentReadingRef.addListenerForSingleValueEvent(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.v("Home_page_running","this is running:  "+1);
-                String value = snapshot.getValue(String.class);
-                if (value != null) {
-                    // Parse value and get time (you need to adjust this based on your data structure)
-                    String[] strings = value.split("/");
-                    if (strings.length == 19) {
-                        String year= strings[0];
-                        String month= strings[1];
-                        String date= strings[2];
-                        String hr= strings[3];
-                        String minute= strings[4];
-                        String second= strings[5];
-                        String MQ135 = strings[6].equals("N")? "0":strings[6];
-                        MQ135 = strings[6].equals("CL")? "0":strings[6];
-                        String MQ135Battery = strings[7].equals("N")? "0":strings[7];
-                        MQ135Battery = strings[7].equals("CL")? "0":strings[7];
-                        String MQ135PlugIn = strings[8].equals("N")? "0":strings[8];
-                        MQ135PlugIn = strings[8].equals("CL")? "0":strings[8];
-                        String Flame = strings[9].equals("N")? "0000":strings[9];
-                        Flame = strings[9].equals("CL")? "0000":strings[9];
-                        String FlameBattery = strings[10].equals("N")? "0":strings[10];
-                        FlameBattery = strings[10].equals("CL")? "0":strings[10];
-                        String FlamePlugIn = strings[11].equals("N")? "0":strings[11];
-                        FlamePlugIn = strings[11].equals("CL")? "0":strings[11];
-                        String HeartRate = strings[12].equals("N")? "0":strings[12];
-                        HeartRate = strings[12].equals("CL")? "0":strings[12];
-                        String HeartRateBattery = strings[13].equals("N")? "0":strings[13];
-                        HeartRateBattery = strings[13].equals("CL")? "0":strings[13];
-                        String HeartRatePlugIn = strings[14].equals("N")? "0":strings[14];
-                        HeartRatePlugIn = strings[14].equals("CL")? "0":strings[14];
-                        String Mode = strings[15].equals("V")? "Void":strings[15];
-                        String latitudeString = strings[16];
-                        String longitudeString = strings[17];
-                        String Counter = strings[18].equals("N")? "0":strings[18];
-                        chart.getAxisLeft().setAxisMinimum(0f); // Set the minimum value of the y-axis to 0
-                        chart.getAxisLeft().setAxisMaximum(2.0f); // Set the maximum value of the y-axis to 1000
-                        Log.v("Home_page_running","this is running:  "+1);
-                        float floatValue1 = (Flame.charAt(0)=='1')?0:1;
-                        float floatValue2 = (Flame.charAt(1)=='1')?0:1;
-                        float floatValue3 = (Flame.charAt(2)=='1')?0:1;
-                        float floatValue4 = (Flame.charAt(3)=='1')?0:1;
-                        if (entries1.size() >= 15) {
-                            entries1.remove(0); // Remove the oldest entry if the list size exceeds 10
+                entries1 = new ArrayList<>();
+                entries2 = new ArrayList<>();
+                entries3 = new ArrayList<>();
+                entries4 = new ArrayList<>();
+
+                time = 0; // Reset time for each new set of data points
+                for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                    String item = childSnapshot.getValue(String.class);
+                    if (item != null) {
+                        // Parse value and get time (you need to adjust this based on your data structure)
+                        String[] strings = item.split("/");
+                        if (strings.length == 18) {
+                            String Flame = strings[9].equals("N") ? "0000" : strings[9];
+                            Flame = strings[9].equals("CL") ? "0000" : strings[9];
+
+                            // Check for garbage output and skip if necessary
+                            if (!Flame.contains("�")) {
+                                float floatValue1 = (Flame.charAt(0) == '0') ? 0 : 1;
+                                float floatValue2 = (Flame.charAt(1) == '0') ? 0 : 1;
+                                float floatValue3 = (Flame.charAt(2) == '0') ? 0 : 1;
+                                float floatValue4 = (Flame.charAt(3) == '0') ? 0 : 1;
+
+                                // Add the new data entry to the lists
+                                entries1.add(new Entry(time, floatValue1));
+                                entries2.add(new Entry(time, floatValue2));
+                                entries3.add(new Entry(time, floatValue3));
+                                entries4.add(new Entry(time, floatValue4));
+                                time++; // Increment time for the next data point
+                            } else {
+                                Log.d("FlamePlot", "Garbage output detected at time: " + time);
+                            }
                         }
-                        if (entries2.size() >= 15) {
-                            entries2.remove(0); // Remove the oldest entry if the list size exceeds 10
-                        }
-                        if (entries3.size() >= 15) {
-                            entries3.remove(0); // Remove the oldest entry if the list size exceeds 10
-                        }
-                        if (entries4.size() >= 15) {
-                            entries4.remove(0); // Remove the oldest entry if the list size exceeds 10
-                        }
-                        // Add the new data entry to the list
-                        entries1.add(new Entry(time, floatValue1));
-                        entries2.add(new Entry(time, floatValue2));
-                        entries3.add(new Entry(time, floatValue3));
-                        entries4.add(new Entry(time, floatValue4));
-
-                        time++;
-                        LineDataSet flameDataSet = new LineDataSet(entries1, "Front");
-                        flameDataSet.setColor(Color.RED); // Set color for the data points
-                        flameDataSet.setDrawValues(false); // Disable drawing values on data points
-                        flameDataSet.setLineWidth(2f); // Set line width
-                        flameDataSet.setCircleColor(Color.RED); // Set circle color for data points
-                        flameDataSet.setDrawCircleHole(false); // Disable circle hole
-
-                        LineDataSet mq135DataSet = new LineDataSet(entries2, "Back");
-                        mq135DataSet.setColor(Color.BLUE);
-                        mq135DataSet.setDrawValues(false);
-                        mq135DataSet.setLineWidth(2f);
-                        mq135DataSet.setCircleColor(Color.BLUE);
-                        mq135DataSet.setDrawCircleHole(false);
-
-                        LineDataSet mq135BatteryDataSet = new LineDataSet(entries3, "Left");
-                        mq135BatteryDataSet.setColor(Color.GREEN);
-                        mq135BatteryDataSet.setDrawValues(false);
-                        mq135BatteryDataSet.setLineWidth(2f);
-                        mq135BatteryDataSet.setCircleColor(Color.GREEN);
-                        mq135BatteryDataSet.setDrawCircleHole(false);
-
-                        LineDataSet flameBatteryDataSet = new LineDataSet(entries4, "Right");
-                        flameBatteryDataSet.setColor(Color.YELLOW);
-                        flameBatteryDataSet.setDrawValues(false);
-                        flameBatteryDataSet.setLineWidth(2f);
-                        flameBatteryDataSet.setCircleColor(Color.YELLOW);
-                        flameBatteryDataSet.setDrawCircleHole(false);
-
-// Create a LineData object and add data sets to it
-                        LineData lineData = new LineData(flameDataSet, mq135DataSet, mq135BatteryDataSet, flameBatteryDataSet);
-
-// Set data to the chart
-                        chart.setData(lineData);
-                        chart.invalidate(); // Refresh the chart
-
-
                     }
                 }
+
+                LineDataSet dataSet1 = new LineDataSet(entries1, "Front");
+                dataSet1.setColor(Color.RED); // Set color for the line
+                dataSet1.setCircleColor(Color.RED); // Set color for the plot dots
+
+                LineDataSet dataSet2 = new LineDataSet(entries2, "Back");
+                dataSet2.setColor(Color.BLUE);
+                dataSet2.setCircleColor(Color.BLUE);
+
+                LineDataSet dataSet3 = new LineDataSet(entries3, "Left");
+                dataSet3.setColor(Color.GREEN);
+                dataSet3.setCircleColor(Color.GREEN);
+
+                LineDataSet dataSet4 = new LineDataSet(entries4, "Right");
+                dataSet4.setColor(Color.YELLOW);
+                dataSet4.setCircleColor(Color.YELLOW);
+
+                // Add LineDataSet instances to LineData
+                LineData lineData1 = new LineData(dataSet1);
+                LineData lineData2 = new LineData(dataSet2);
+                LineData lineData3 = new LineData(dataSet3);
+                LineData lineData4 = new LineData(dataSet4);
+
+                // Set other properties of the LineData if needed
+                lineData1.setValueTextSize(12f);
+                lineData1.setValueTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+                lineData2.setValueTextSize(12f);
+                lineData2.setValueTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+                lineData3.setValueTextSize(12f);
+                lineData3.setValueTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+                lineData4.setValueTextSize(12f);
+                lineData4.setValueTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+
+                // Set labels for x and y axes
+                chart.getXAxis().setValueFormatter(new ValueFormatter() {
+                    @Override
+                    public String getFormattedValue(float value) {
+                        // Return your formatted time label here based on 'value'
+                        return String.valueOf(value);
+                    }
+                });
+                chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+
+                // Set LineData to the chart
+                chart.setData(lineData1);
+
+                // Set other properties of the chart if needed
+                Description description = new Description();
+                description.setText("Flame Plot");
+                chart.setDescription(description);
+
+                // Refresh the chart
+                chart.invalidate();
+
+                // Apply the same settings to the other charts
+                chart2.setData(lineData2);
+                chart2.setDescription(description);
+                chart2.invalidate();
+
+                chart3.setData(lineData3);
+                chart3.setDescription(description);
+                chart3.invalidate();
+
+                chart4.setData(lineData4);
+                chart4.setDescription(description);
+                chart4.invalidate();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getActivity(), "Fail to get data.", Toast.LENGTH_SHORT).show();
+                // Handle error
             }
         });
+
+        return rootView;
     }
 }

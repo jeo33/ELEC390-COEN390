@@ -35,10 +35,10 @@ public class HomePage extends Fragment {
     private boolean onDataChangeEnabled = false;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
-    TextView textSensorReading1,textName1,GPSMODE,latitude,longitude;
+    TextView textSensorReading1,textName1,GPSMODE,latitude,longitude,textName2,textName3,textName4;
     ImageView top,bot,left,right,middle;;
     ImageButton centerIcon;
-    Button Location;
+    Button Location,Location2,Location3,Location4;
     String Readings;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,6 +50,14 @@ public class HomePage extends Fragment {
 Log.v("HOME_RUNNING_TEST","RUNNING");
 
         LinearLayout firstIncludedLayout = rootView.findViewById(R.id.included_layout_1);
+        LinearLayout secondIncludedLayout = rootView.findViewById(R.id.included_layout_2);
+        LinearLayout thirdIncludedLayout = rootView.findViewById(R.id.included_layout_3);
+        LinearLayout forthIncludedLayout = rootView.findViewById(R.id.included_layout_4);
+
+        textName1 = firstIncludedLayout.findViewById(R.id.text_name);
+        textName2 = secondIncludedLayout.findViewById(R.id.text_name);
+        textName3 = thirdIncludedLayout.findViewById(R.id.text_name);
+        textName4 = forthIncludedLayout.findViewById(R.id.text_name);
         centerIcon=firstIncludedLayout.findViewById(R.id.image_center_icon);
         textName1 = firstIncludedLayout.findViewById(R.id.text_name);
         textSensorReading1 = firstIncludedLayout.findViewById(R.id.text_sensor_reading);
@@ -58,11 +66,17 @@ Log.v("HOME_RUNNING_TEST","RUNNING");
         left= firstIncludedLayout.findViewById(R.id.image_left_icon);
         right= firstIncludedLayout.findViewById(R.id.image_right_icon);
         Location=(Button) firstIncludedLayout.findViewById(R.id.Location);
+        Location2=(Button) secondIncludedLayout.findViewById(R.id.Location);
+        Location3=(Button) thirdIncludedLayout.findViewById(R.id.Location);
+        Location4=(Button) forthIncludedLayout.findViewById(R.id.Location);
         GPSMODE= firstIncludedLayout.findViewById(R.id.GpsMode);
         latitude= firstIncludedLayout.findViewById(R.id.latitude);
         longitude= firstIncludedLayout.findViewById(R.id.longitude);
         Log.v("HOME_RUNNING_TEST","RUNNING");
-
+        textName1.setText("Paul Stanley");
+        textName2.setText("Gene Simmons");
+        textName3.setText("Eric Singer");
+        textName4.setText("Tommy Thayer");
         centerIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,7 +87,62 @@ Log.v("HOME_RUNNING_TEST","RUNNING");
         getdata();
 
         Log.v("HOME_RUNNING_TEST","RUNNING");
+        Location2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle args = new Bundle();
+                args.putFloat("floatArg2Key", Float.parseFloat("45.424721")); // Replace with your float value
+                args.putFloat("floatArg1Key", Float.parseFloat("-75.695000")); // Replace with your float value
 
+                // Create OtherFragment and set arguments
+                GPSwithLocationInput gpsPage=new GPSwithLocationInput();
+                gpsPage.setArguments(args);
+
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameLayout, gpsPage) // Replace with your fragment container ID
+                        .addToBackStack(null) // Add transaction to the back stack
+                        .commit();
+            }
+        });
+
+        Location3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle args = new Bundle();
+                args.putFloat("floatArg2Key", Float.parseFloat("43.653226")); // Replace with your float value
+                args.putFloat("floatArg1Key", Float.parseFloat("-79.3831843")); // Replace with your float value
+
+                // Create OtherFragment and set arguments
+                GPSwithLocationInput gpsPage=new GPSwithLocationInput();
+                gpsPage.setArguments(args);
+
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameLayout, gpsPage) // Replace with your fragment container ID
+                        .addToBackStack(null) // Add transaction to the back stack
+                        .commit();
+            }
+        });
+
+        Location4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle args = new Bundle();
+                args.putFloat("floatArg2Key", Float.parseFloat("49.246292")); // Replace with your float value
+                args.putFloat("floatArg1Key", Float.parseFloat("-123.116226")); // Replace with your float value
+
+                // Create OtherFragment and set arguments
+                GPSwithLocationInput gpsPage=new GPSwithLocationInput();
+                gpsPage.setArguments(args);
+
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameLayout, gpsPage) // Replace with your fragment container ID
+                        .addToBackStack(null) // Add transaction to the back stack
+                        .commit();
+            }
+        });
         return rootView;
     }
 
@@ -128,7 +197,6 @@ Log.v("HOME_RUNNING_TEST","RUNNING");
                             String latitudeString = strings[16];
                             String longitudeString = strings[17];
                             String Counter = strings[18].equals("N")? "0":strings[18];
-                            textName1.setText(Flame); // Set the new sensor reading for the first sensor.
                             textSensorReading1.setText(year+"/"+month+"/"+date+"/"+hr+":"+minute+":"+second); // Set the new sensor reading for the first sensor.
                             GPSMODE.setText(Mode);
                             latitude.setText(latitudeString);

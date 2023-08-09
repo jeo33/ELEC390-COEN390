@@ -14,9 +14,11 @@ import android.widget.Toast;
 
 import com.example.a390project.R;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,7 +41,7 @@ public class HeartRatePlot extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_gas_plot, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_heart_rateplot, container, false);
         // Inflate the layout for this fragment
 
         Log.v("Home_page_running","this is running:  "+1);
@@ -50,77 +52,68 @@ public class HeartRatePlot extends DialogFragment {
 
         Button closeButton = rootView.findViewById(R.id.closeButton);
         Log.v("Home_page_running","this is running:  "+1);
-        getdata();
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss(); // Close the dialog
             }
         });
-        return rootView;
-    }
-    public void getdata() {
-        DatabaseReference currentReadingRef = databaseReference.child("message").child("current_reading");
-        currentReadingRef.addValueEventListener(new ValueEventListener() {
+
+
+        DatabaseReference currentReadingRef = databaseReference.child("message");
+
+        currentReadingRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            // ...
+
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.v("Home_page_running","this is running:  "+1);
-                String value = snapshot.getValue(String.class);
-                if (value != null) {
-                    // Parse value and get time (you need to adjust this based on your data structure)
-                    String[] strings = value.split("/");
-                    if (strings.length == 19) {
-                        String year= strings[0];
-                        String month= strings[1];
-                        String date= strings[2];
-                        String hr= strings[3];
-                        String minute= strings[4];
-                        String second= strings[5];
-                        String MQ135 = strings[6].equals("N")? "0":strings[6];
-                        MQ135 = strings[6].equals("CL")? "0":strings[6];
-                        String MQ135Battery = strings[7].equals("N")? "0":strings[7];
-                        MQ135Battery = strings[7].equals("CL")? "0":strings[7];
-                        String MQ135PlugIn = strings[8].equals("N")? "0":strings[8];
-                        MQ135PlugIn = strings[8].equals("CL")? "0":strings[8];
-                        String Flame = strings[9].equals("N")? "0000":strings[9];
-                        Flame = strings[9].equals("CL")? "0000":strings[9];
-                        String FlameBattery = strings[10].equals("N")? "0":strings[10];
-                        FlameBattery = strings[10].equals("CL")? "0":strings[10];
-                        String FlamePlugIn = strings[11].equals("N")? "0":strings[11];
-                        FlamePlugIn = strings[11].equals("CL")? "0":strings[11];
-                        String HeartRate = (strings[12].equals("N")|strings[12].equals("CL"))? "0":strings[12];
-                        String HeartRateBattery = strings[13].equals("N")? "0":strings[13];
-                        HeartRateBattery = strings[13].equals("CL")? "0":strings[13];
-                        String HeartRatePlugIn = strings[14].equals("N")? "0":strings[14];
-                        HeartRatePlugIn = strings[14].equals("CL")? "0":strings[14];
-                        String Mode = strings[15].equals("V")? "Void":strings[15];
-                        String latitudeString = strings[16];
-                        String longitudeString = strings[17];
-                        String Counter = strings[18].equals("N")? "0":strings[18];
-                        chart.getAxisLeft().setAxisMinimum(0f); // Set the minimum value of the y-axis to 0
-                        chart.getAxisLeft().setAxisMaximum(200f); // Set the maximum value of the y-axis to 1000
-                        Log.v("Home_page_running","this is running:  "+1);
-                        float floatValue = Float.parseFloat(HeartRate);
-                        if (entries.size() >= 15) {
-                            entries.remove(0); // Remove the oldest entry if the list size exceeds 10
+                entries = new ArrayList<>();
+                time = 0; // Reset time for each new set of data points
+                for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                    String item = childSnapshot.getValue(String.class);
+                    if (item != null) {
+                        // Parse value and get time (you need to adjust this based on your data structure)
+                        String[] strings = item.split("/");
+                        if (strings.length == 18) {
+                            String HeartRate = (strings[12].equals("N")|strings[12].equals("CL"))? "0":strings[12];
+                            float floatValue = Float.parseFloat(HeartRate);
+                            // Add the new data entry to the list
+                            entries.add(new Entry(time, floatValue));
+                            time++; // Increment time for the next data point
                         }
-                        // Add the new data entry to the list
-                        entries.add(new Entry(time, floatValue));
-
-                        time++;
-                        // Create a dataset and update the chart
-                        LineDataSet dataSet = new LineDataSet(entries, "Value versus Time");
-                        LineData lineData = new LineData(dataSet);
-                        chart.setData(lineData);
-                        chart.invalidate(); // Refresh the chart
                     }
                 }
+                chart.getAxisLeft().setAxisMinimum(0f); // Set the minimum value of the y-axis to 0
+                chart.getAxisLeft().setAxisMaximum(1000f); // Set the maximum value of the y-axis to 1000
+                LineDataSet dataSet = new LineDataSet(entries, "MQ135 Reading versus Time");
+                dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER); // Adjust line mode if needed
+                LineData lineData = new LineData(dataSet);
+                chart.setData(lineData);
+
+                // Set labels for x and y axes
+                chart.getXAxis().setValueFormatter(new ValueFormatter() {
+                    @Override
+                    public String getFormattedValue(float value) {
+                        // Return your formatted time label here based on 'value'
+                        return String.valueOf(value);
+                    }
+                });
+                chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+                chart.getDescription().setEnabled(false);
+                chart.invalidate(); // Refresh the chart
             }
+
+// ...
+
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getActivity(), "Fail to get data.", Toast.LENGTH_SHORT).show();
+                // Handle error
             }
         });
+
+
+        return rootView;
     }
 }

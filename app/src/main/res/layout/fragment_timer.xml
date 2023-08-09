@@ -95,7 +95,7 @@
         android:layout_marginTop="34dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="33"
+        android:text="Last record: 0s"
         android:textSize="36sp"
         android:gravity="center"
         android:layout_gravity="center"
